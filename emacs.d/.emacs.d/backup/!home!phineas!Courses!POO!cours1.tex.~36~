@@ -1,0 +1,190 @@
+% Created 2017-01-30 lun. 20:53
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{Evrard Van Espen}
+\date{}
+\title{Cours POO n°1}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+
+\section{Cours 1 prog objet}
+\label{sec-1}
+\subsection{Définitions}
+\label{sec-1-1}
+Un \emph{objet} a un \textbf{état} un \textbf{comportement} et une \textbf{identité}.
+\subsubsection{L'identité}
+\label{sec-1-1-1}
+\begin{itemize}
+\item un objet forme un tout
+\item deux objets différents ont des identités différentes
+\item on peux désigner un objet, y faire \emph{référence}.
+\end{itemize}
+
+\subsubsection{L'état}
+\label{sec-1-1-2}
+\begin{itemize}
+\item un ensemble de caractéristiques, ou \emph{propriété}
+\item des \emph{attributs}
+\end{itemize}
+
+\subsubsection{Le comportement}
+\label{sec-1-1-3}
+\begin{itemize}
+\item ensemble des traitements que l'on peut effectuer sur l'objet
+\item fonctions décrivant les actions possibles sur/de l'objet. Appelées \emph{méthodes}.
+\end{itemize}
+
+\subsection{Mécanique de fonctionnement}
+\label{sec-1-2}
+En POO, on s'adresse à un objet par \emph{envoi} de message => invocation de méthodes
+
+\subsubsection{Interface de l'objet}
+\label{sec-1-2-1}
+\begin{itemize}
+\item ensemble des manières dont on dispose pour interagir avec l'objet
+\item ensemble des messages reconnus par l'objet.
+\end{itemize}
+
+\subsection{Notion de base}
+\label{sec-1-3}
+Certains objets présentent les mêmes caractéristiques mais ont des identités différentes, bien qu'ils aient les mêmes méthodes.
+
+\subsection{Diagramme de classe}
+\label{sec-1-4}
+\subsubsection{Représentation UML}
+\label{sec-1-4-1}
+
+
+\begin{center}
+\begin{tabular}{l}
+\textbf{Livre}\\
+\hline
+auteur: String\\
+titre: String\\
+annee: int\\
+texte: String\\
+\hline
+lire(): void\\
+imprimer(): void\\
+\\
+\end{tabular}
+\end{center}
+
+\includegraphics[width=.9\linewidth]{out.png}
+
+
+\subsection{Construction d'objet}
+\label{sec-1-5}
+\textbf{Programmation} : définition des classes : process d'abstraction
+
+\subsection{Concrètement}
+\label{sec-1-6}
+
+\begin{minted}[]{java}
+class Livre
+ {
+   String auteur;
+   String titre;
+   int annee;
+
+//constructeur
+ Livre(String unAuteur, String unTitre, int uneAnnee)
+  {
+    auteur = unAuteur;
+    titre = unTitre;
+    annee = uneAnnee;
+  }
+
+//méthodes
+ String retournerAuteur()
+  {
+    return auteur;
+  }
+}
+\end{minted}
+
+\subsection{Définition de la classe}
+\label{sec-1-7}
+
+\begin{minted}[]{java}
+class NomDeLaClasse {
+//déclatation des attributs
+
+//déclaration des méthodes
+}
+\end{minted}
+
+
+\begin{itemize}
+\item un fichier de classe
+\end{itemize}
+
+\subsubsection{Constructeur}
+\label{sec-1-7-1}
+
+\begin{minted}[]{java}
+NomDeLaClasse (paramètres) {
+//initialisation et traitements
+}
+\end{minted}
+
+\subsubsection{Méthodes}
+\label{sec-1-7-2}
+
+\begin{minted}[]{java}
+type nom (param) {
+//traitements
+return type; //si besoin
+}
+\end{minted}
+
+\subsubsection{Signature}
+\label{sec-1-7-3}
+La signature de la méthode est son \emph{nom} et \emph{le type des params}
+
+\begin{itemize}
+\item impossible d'avoir deux méthodes de même signature au sein d'une même classe !
+\end{itemize}
+
+\subsection{Manipulation de l'objet}
+\label{sec-1-8}
+\begin{itemize}
+\item il est possible de nommer un objet créé pour pouvoir y faire référence par la suite
+\begin{itemize}
+\item on précise le type (classe) de la référence
+\item on nomme la référence
+\item on affecte une valeur
+\end{itemize}
+
+\item détruire l'objet ?
+\begin{itemize}
+\item but: libérer la mémoire occupée par l'objet
+\item pas de destructeur explicite --> le \emph{garbage collector} le fait tout seul !
+\end{itemize}
+\end{itemize}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

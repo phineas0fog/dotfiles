@@ -1,0 +1,255 @@
+% Created 2017-02-08 mer. 10:54
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{Evrard Van Espen}
+\date{}
+\title{Gestion analytique et comptable TP 1}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\section{Journal}
+\label{sec-1}
+\begin{center}
+\begin{tabular}{rlrr}
+ &  & D & C\\
+\hline
+ & \textbf{01/04} &  & \\
+512 & banque & 10000 & \\
+101 & capital &  & 1000\\
+ & \emph{constitution ent} &  & \\
+\hline
+ & \textbf{02/04} &  & \\
+607 & achat de marchandises & 20000 & \\
+401 & fournisseur &  & 2000\\
+ & \emph{facture 123} &  & \\
+\hline
+ & \textbf{03/04} &  & \\
+2182 & materiel de transport & 1500 & \\
+512 & banque &  & 1500\\
+ & \emph{règlement véhicule de tansport} &  & \\
+\hline
+ & \textbf{30/04} &  & \\
+512 & banque & 5000 & \\
+530 & caisse &  & 5000\\
+ & \emph{virement de la caisse à la banque} &  & \\
+\hline
+ &  &  & \\
+\end{tabular}
+\end{center}
+
+
+\section{Grand livre}
+\label{sec-2}
+
+\emph{sc} solde créditeur
+\emph{sd} solde débiteur
+\emph{si} solde initial
+
+\subsection{Capital \textbf{101}}
+\label{sec-2-1}
+\begin{center}
+\begin{tabular}{lr}
+D & C\\
+\hline
+ & 10000\\
+sc=10000 & \\
+\hline
+10000 & 10000\\
+\end{tabular}
+\end{center}
+
+\subsection{Matériel de transport \textbf{218}}
+\label{sec-2-2}
+\begin{center}
+\begin{tabular}{rl}
+D & C\\
+\hline
+1500 & \\
+ & sd=1500\\
+\hline
+1500 & 1500\\
+\end{tabular}
+\end{center}
+
+\subsection{Fournisseur \textbf{401}}
+\label{sec-2-3}
+\begin{center}
+\begin{tabular}{lr}
+D & C\\
+\hline
+ & si=0\\
+ & 20000\\
+5000 & \\
+sc=15000 & \\
+\hline
+20000 & 20000\\
+\end{tabular}
+\end{center}
+
+\subsection{Client \textbf{411}}
+\label{sec-2-4}
+\begin{center}
+\begin{tabular}{rl}
+D & C\\
+\hline
+si=0 & \\
+12000 & 6000\\
+ & sd=6000\\
+\hline
+12000 & 12000\\
+\end{tabular}
+\end{center}
+
+\subsection{Banque \textbf{512}}
+\label{sec-2-5}
+\begin{center}
+\begin{tabular}{rr}
+D & C\\
+\hline
+sd=0 & \\
+10000 & 1500\\
+2000 & 5000\\
+5000 & 3000\\
+ & 4000\\
+ & sd=3500\\
+\hline
+17000 & 17000\\
+\end{tabular}
+\end{center}
+
+\subsection{Caisse \textbf{530}}
+\label{sec-2-6}
+\begin{center}
+\begin{tabular}{rl}
+D & C\\
+\hline
+sd=0 & \\
+6000 & \\
+1000 & 5000\\
+ & sd=2000\\
+\hline
+7000 & 7000\\
+\end{tabular}
+\end{center}
+
+\subsection{Achat de marchandises \textbf{607}}
+\label{sec-2-7}
+\begin{center}
+\begin{tabular}{rl}
+D & C\\
+\hline
+20000 & \\
+4000 & sd=24000\\
+\hline
+24000 & 24000\\
+\end{tabular}
+\end{center}
+
+\subsection{Rémunération du personnel \textbf{641}}
+\label{sec-2-8}
+\begin{center}
+\begin{tabular}{rl}
+D & C\\
+\hline
+3000 & \\
+ & sd=3000\\
+\hline
+3000 & 3000\\
+\end{tabular}
+\end{center}
+
+\subsection{Ventes de marchandises \textbf{707}}
+\label{sec-2-9}
+\begin{center}
+\begin{tabular}{lr}
+D & C\\
+\hline
+ & 12000\\
+ & 3000\\
+sc=15000 & \\
+\hline
+15000 & 15000\\
+\end{tabular}
+\end{center}
+
+
+On va maintenant pouvoir calculer le résultat :
+\begin{itemize}
+\item soit avec les comptes de bilan --> actif-passif (classes 1 --> 5)
+\item les comptes des comptes de résultats --> produits-charges (classes 7-6)
+\end{itemize}
+
+
+\section{Balance}
+\label{sec-3}
+\begin{itemize}
+\item créditeur --> au passif
+\item débiteur --> à l'actif
+\end{itemize}
+
+Comptes 1 à 5
+
+\begin{center}
+\begin{tabular}{lrlr}
+ACTIF & montants & PASSIF & montants\\
+\hline
+\uline{Immobilisations} &  & \uline{Capitaux propres} & \\
+mat transport & 1500 & capital & 10000\\
+stocks & 0 & \uline{RÉSULTAT} & -12000\\
+clients & 6000 & \uline{dettes à court terme} & \\
+\uline{disponibilités} &  & fournisseur & 15000\\
+banque & 3500 &  & \\
+caisse & 2000 &  & \\
+\hline
+TOTAL & \textbf{13000} & TOTAL & \textbf{-13000}\\
+\end{tabular}
+\end{center}
+
+Cela donne un inventaire patrimonial
+\begin{itemize}
+\item entreprise endettée si passifs > actifs
+\item résultat = actif - passif
+\end{itemize}
+Ici l'entreprise a des dettes.
+
+
+Comptes 6 et 7
+\begin{center}
+\begin{tabular}{lrlr}
+CHARGES & montants & PRODUITS & montants\\
+\hline
+\uline{charges d'exploitation} &  & \uline{produits exp} & \\
+achats & 24000 & ventes & 15000\\
+rémunération & 3000 &  & \\
+\uline{charges financières} &  & \uline{produits financiers} & \\
+\uline{charges exceptionnelles} &  & \uline{produits exceptionnels} & \\
+\uline{résultat (benefs)} &  & \uline{résultat (pertes)} & 12000\\
+\hline
+TOTAL & \textbf{27000} & TOTAL & \textbf{27000}\\
+\end{tabular}
+\end{center}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

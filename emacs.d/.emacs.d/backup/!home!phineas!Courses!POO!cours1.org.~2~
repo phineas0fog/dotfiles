@@ -1,0 +1,44 @@
+* Cours 1 prog objet
+** Définitions
+ Un /objet/ a un *état* un *comportement* et une *identité*.
+*** L'identité
+- un objet forme un tout
+- deux objets différents ont des identités différentes
+- on peux désigner un objet, y faire /référence/.
+
+*** L'état
+- un ensemble de caractéristiques, ou /propriété/
+- des /attributs/
+
+*** Le comportement
+- ensemble des traitements que l'on peut effectuer sur l'objet
+- fonctions décrivant les actions possibles sur/de l'objet. Appelées /méthodes/.
+
+** Mécanique de fonctionnement
+En POO, on s'adresse à un objet par /envoi/ de message => invocation de méthodes
+
+*** Interface de l'objet
+- ensemble des manières dont on dispose pour interagir avec l'objet
+- ensemble des messages reconnus par l'objet.
+
+
+** Notion de base
+Certains objets présentent les mêmes caractéristiques mais ont des identités différentes, bien qu'ils aient les mêmes méthodes.
+
+** Diagramme de classe
+*** Représentation UML
+
+
+| *Livre*          |
+|------------------|
+| auteur: String   |
+| titre: String    |
+| annee: int       |
+| texte: String    |
+|------------------|
+| lire(): void     |
+| imprimer(): void |
+|                  |
+
+** Construction d'objet
+*Programmation* : définition des classes : process d'abstraction

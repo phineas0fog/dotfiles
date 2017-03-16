@@ -1,0 +1,81 @@
+% Created 2017-03-06 lun. 09:20
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{Evrard Van Espen}
+\date{}
+\title{Curiculum Vitae}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+Evrard Van Espen
+
+42 rue Du Voyageur
+
+4242 Betelgeuse
+
+email@example.com
+
+\section{Formation}
+\label{sec-1}
+\begin{itemize}
+\item 2015-2017 : DUT informatique à l'IUT de Clermont-Ferrand
+\item 2014-2017 : En cours de formation pour l'obtention de la PPL (license de pilot d'avion)
+\item 2015 : obtention du baccalauréat, section STI2D, mention très bien
+\item 2015 : BIA, Brevet d'initiation à l'aéronautique, mention bien
+\end{itemize}
+
+\section{Expériences professionnelles}
+\label{sec-2}
+\begin{itemize}
+\item 2015 : Aide à l'organisation et installation lors du Blues en Loire à la Charité sur Loire
+\item 2015 : Musicien professionnel au sein d'un groupe de blues
+\item 2014 : Stage d'une semaine pendant l'année de seconde dans une entreprise de services et réparations informatiques
+\item 2012 : Stage d'une semaine pendant l'année de troisième dans une entreprise d'infographie, découverte des principaux outils
+\end{itemize}
+
+\section{Langues étrangères}
+\label{sec-3}
+\begin{itemize}
+\item Anglais niveau opérationnel
+\end{itemize}
+
+\section{Compétences informatiques}
+\label{sec-4}
+\begin{itemize}
+\item Langages : C, Java, HTML, CSS, PHP, shell, arduino, SQL
+\item Logiciels : Emacs, Gimp
+\item Systèmes d'exploitation : UNIX et Windows
+\end{itemize}
+
+\section{Centres d'interêts}
+\label{sec-5}
+\begin{itemize}
+\item Musique, guitare et basse
+\item Aéronautique
+\item Coutellerie
+\item Informatique, spécialement l'univers du libre
+\end{itemize}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

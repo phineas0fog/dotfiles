@@ -1,0 +1,5 @@
+| Intitulé | Charges réelles | Analyse de pertinence                            | Charges globales | Analyse de dépendance            | Analyse de spécificité |       |
+|          |                 |                                                  |                  |                                  |                        |       |
+|----------+-----------------+-----------------------+-------------+------------+------------------+-----------------------+----------+------------------------+-------|
+|          |                 | Non incor             | Supplétives | Diff incor |                  | Charges opé           | De struc | Directes               | Indir |
+|          |                 |                       |             |            |                  |                       |          |                        |       |

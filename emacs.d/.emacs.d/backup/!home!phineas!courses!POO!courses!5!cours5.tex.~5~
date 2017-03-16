@@ -1,0 +1,122 @@
+% Created 2017-03-06 lun. 14:29
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\usepackage{gfsartemisia}
+\author{Evrard Van Espen}
+\date{}
+\title{Cours POO n 5}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\section{Les conteneurs}
+\label{sec-1}
+\subsection{Regrouper des données de même type}
+\label{sec-1-1}
+\begin{itemize}
+\item Méthode
+\begin{itemize}
+\item tableau classique
+\item conteneur
+\end{itemize}
+
+\item Avantages des conteneurs
+\begin{itemize}
+\item pas de capacité maximale
+\item améliorer les perfs des apps
+\item implémentation plus facile
+\end{itemize}
+
+\item Particularités
+\begin{itemize}
+\item que des références sur objets
+\item pas de types primitifs
+\item autoboxing si besoin \texttt{int -> Interger...}
+\item peut contenir \texttt{null}
+\end{itemize}
+\end{itemize}
+\subsection{Le package \texttt{java.util}}
+\label{sec-1-2}
+Il comprend notament;
+\begin{itemize}
+\item différentes classes de conteneurs
+\item des itérateurs pour les parcourir
+\item des algos utiles \emph{(tris, recherches,\ldots{})}
+\end{itemize}
+\subsection{Les listes \texttt{List<E>}}
+\label{sec-1-3}
+\begin{itemize}
+\item Pour grouper des objets repérés par des indices
+\item Différentes implémentations
+\begin{itemize}
+\item \texttt{ArrayList} \emph{(tableau de taill variable)}
+\item \texttt{LinkedList} \emph{(liste doublement chaînée)}
+\end{itemize}
+
+\item Principales méthodes
+\begin{itemize}
+\item \texttt{void add(int index, E element)}
+\item \texttt{void clear}
+\item \texttt{boolean contains(Object o)}
+\item \texttt{E remove(int index)}
+\end{itemize}
+\end{itemize}
+\subsection{\texttt{ArrayList<E>}}
+\label{sec-1-4}
+\begin{itemize}
+\item Liste implémentée par tableau de taille variable
+\item Avantage: rapide en lecture
+\item Inconvénient : lente pour l'insertion ou suppression en milieu de liste
+\end{itemize}
+
+\begin{minted}[]{java}
+List<type> liste = new ArrayList<>();
+\end{minted}
+
+\subsection{\texttt{LinkedList<E>}}
+\label{sec-1-5}
+\begin{itemize}
+\item Liste implémentée par une liste doublement chaînée
+\item Avantage: rapide en insertion / suppression n'importe où
+\item Inconvénient : lente pour l'accès à un élément donné
+\end{itemize}
+\subsection{Itérateur}
+\label{sec-1-6}
+\begin{itemize}
+\item 2 méthodes principales
+\begin{itemize}
+\item \texttt{boolean hasNext()} retourne \texttt{false} si la collection est vide ou si le dernier élément à été lu
+\item \texttt{E next()} retourne une \emph{référence} sur l'objet suivant
+\end{itemize}
+\end{itemize}
+\begin{minted}[]{java}
+List<Type> liste = new ArrayList<>();
+Iterator<Type> IT = liste.iterator();
+while(it.hasNext()){
+  .........
+}
+\end{minted}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

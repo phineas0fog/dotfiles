@@ -1,0 +1,38 @@
+package personnages;
+
+public class Brigand extend Humain{
+    private String comportement = "méchant";
+    private int nbDamesEnlevees = 0;
+    private float recompense	= 100;
+    private boolean enPrison	= false;
+
+    public Brigand(String nom, String boisson, String comportement, float recompense){
+	super(nom, boisson);
+	this.comportement = comportement;
+	this.recompense	  = recompense;
+    }
+
+    public Brigand(String nom){
+	super(nom);
+    }
+
+    public float getMiseAPrix(){
+	return recompense;
+    }
+
+    public void kidnapper(Dame dame){
+	parler("Ahah ! "+dame.getNom()+", tu es mienne désormais !");
+	dame.seFaireKidnapper();
+    }
+
+    public String getNom(){
+	return super.getNom()+" le "+comportement;
+    }
+
+    @Override
+    public void sePresenter(){
+	super.sePresenter();
+	parler("J'ai l'air "+comportement+" et j'ai kidnappé "+nbDamesEnlevees+" dames !");
+	parler("Ma têtes est mise à prix "+recompense+" $");
+    }
+}

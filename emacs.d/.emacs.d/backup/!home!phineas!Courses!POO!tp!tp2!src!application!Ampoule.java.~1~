@@ -1,0 +1,15 @@
+package application;
+
+public class Ampoule{
+    boolean allume;
+
+    public allumer(){
+	allume=true;
+	System.out.println("Etat: "+allume);
+    }
+
+    public eteindre(){
+	allume=false;
+	System.out.println("Etat: "+allume);
+    }
+}

@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+#emacs daemon
+emacs --daemon
+
+
+#mpd
+mpd > /dev/null 2> /dev/null;
+mpd pause > /dev/null;

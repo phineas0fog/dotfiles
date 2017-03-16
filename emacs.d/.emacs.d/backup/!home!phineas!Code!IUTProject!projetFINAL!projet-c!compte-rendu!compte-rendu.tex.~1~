@@ -1,0 +1,290 @@
+% Created 2017-01-23 Mon 01:13
+\documentclass[11pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{Louis Turpinat, Axel Yildiz, Evrard Van Espen}
+\date{}
+\title{Compte-rendu projet C : Gestion d'une Ludothèque}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+
+\section{Introduction}
+\label{sec-1}
+La répartition des tâches sur ce projet est la suivante :
+\begin{itemize}
+\item Louis Turpinat : gestion des adhérents et structuration du projet
+\item Axel Yildiz : gestion des après-midi thématiques et structuration du projet
+\item Evrard Van Espen : gestion des emprunts et des jeux
+\end{itemize}
+
+\subsection{Diagramme d'inclusion}
+\label{sec-1-1}
+\includegraphics[width=.9\linewidth]{./images/inclusion.png}
+\subsection{Vue globale du programme}
+\label{sec-1-2}
+\includegraphics[width=.9\linewidth]{./images/code-complet.png}
+\subsection{Légende}
+\label{sec-1-3}
+\includegraphics[width=.9\linewidth]{./images/graph_legend.png}
+
+\section{Adhérents}
+\label{sec-2}
+\subsection{Définition}
+\label{sec-2-1}
+Chaque adhérent est caractérisé par :
+\begin{itemize}
+\item Un numéro d'identification unique de cinq caractères numériques (\emph{XXXXX})
+\item Un nom de famille
+\item Un prénom
+\item Sa dernière date de renouvellement (suivant le format suivant : \emph{JJ/MM/AAAA})
+\item Trois emprunts (caractérisés respectivement par le numéro de l'élèment emprunté ou de \emph{-1} si l'emplacement n'est pas utilisé [aucun emprunt])
+\end{itemize}
+
+\subsection{Exemple d'adhérent}
+\label{sec-2-2}
+\begin{verbatim}
+71485 #numéro d'identification
+Duponet #nom
+Richard #prénom
+30/05/2016 #dernière date de renouvellement
+8541 #emprunt n1
+741 #emprunt n2
+-1 #emprunt n3
+\end{verbatim}
+
+\subsection{La structure}
+\label{sec-2-3}
+Pour augmenter la flexibilité et la lisibilité du code source, on décide d'utiliser des constantes de préprocesseurs ("define").
+
+\begin{minted}[]{c}
+#define TAILLENOM 30
+#define TAILLEPRENOM 30
+#define EMPRUNTMAX 3
+
+typedef struct{
+  int numero;
+  char nom[TAILLENOM], prenom[TAILLEPRENOM], dernierRenouvellement[11];
+  int emprunts[EMPRUNTMAX];
+} Adherent;
+\end{minted}
+\subsection{Traitement des données en flux réel}
+\label{sec-2-4}
+Le traitement des adhérents se fait de manière intelligente, c'est-à-dire que les 
+ressources mémoires du tableau de pointeurs pointant sur des structures d'adhérants
+sont constamment réallouées selon la taille totale qu'ils requièrent (avec un pas de 5 éléments).
+Ainsi, à l'initialisation, la suppresion et l'ajout, la taille du tableau est 
+en changement constant, permettant une optimisation des ressources mémoires.
+
+\subsection{Fonctionnalités}
+\label{sec-2-5}
+Avec ses adhérents, le responsable de la ludothèque peut :
+\begin{itemize}
+\item Lister tous ses adhérents
+\item Les ajouter à l'aide d'une interface
+\item Les supprimer à l'aide d'une interface
+\item Rechercher un adhérent en particulier pour obtenir des informations
+\item Renouveller l'abonnement d'un adhérent
+\item Sauvegarder le nouveau contenu dans un fichier
+\item \ldots{}le tout gérable à travers un menu intéractif.
+\end{itemize}
+\section{Jeux}
+\label{sec-3}
+\subsection{Définition}
+\label{sec-3-1}
+Chaque jeu est caractérisé par :
+\begin{itemize}
+\item Un numéro généré automatiquement
+\item Un nom
+\item Une description
+\item Un type
+\item Un thème
+\end{itemize}
+
+\subsection{Exemple de jeu}
+\label{sec-3-2}
+\begin{verbatim}
+71485 #numéro d'identification
+Naheulbeuk #nom
+Un jeu de rôle basé sur l'univers de naheulbeuk. Rire garanti !
+jeu de role #type
+médiéval-fantastique #theme
+\end{verbatim}
+
+\subsection{Les structures}
+\label{sec-3-3}
+\begin{minted}[]{c}
+typedef struct
+{
+  int num;
+  char nom[50];
+  char description[500];
+  char type[50];
+  char theme[50];
+}Jeu;
+
+typedef struct
+{
+    Jeu **tab;
+    int nbJeux;
+    int max;
+}TabJeu;
+\end{minted}
+
+La structure "TabJeu" est là pour simplifier le routage des données.
+
+\subsection{Traitement des données}
+\label{sec-3-4}
+Lors du lancement du programme, le fichier est lu et chargé en mémoire. L'allocation de mémoire se fait à chaque nouvel élément de façon à ne pas réserver de mémoire inutilement.
+Lors de l'ajout d'un élément, celui ci est inséré à la fin du tableau, est le tri est conservé puisque le numéro du nouveau jeu est le numéro du précédent auquel est ajouté 1.
+
+\subsection{Fonctionnalités}
+\label{sec-3-5}
+Concernant les jeux, il est possible:
+\begin{itemize}
+\item d'en ajouter de nouveaux
+\item d'en supprimer
+\item d'en modifier
+\item d'en rechercher
+\end{itemize}
+
+\section{Emprunts}
+\label{sec-4}
+\subsection{Définition}
+\label{sec-4-1}
+Chaque emprunt est caractérisé par :
+\begin{itemize}
+\item Un numéro généré automatiquement
+\item La date à laquelle l'emprunt a été passé
+\item Le numéro du jeu qui a été emprunté
+\item Le numéro de l'adhérent qui a emprunté le jeu
+\end{itemize}
+
+\subsection{Exemple d'emprunt}
+\label{sec-4-2}
+\begin{verbatim}
+71485 #numéro d'identification
+24/12/1942 #date de l'emprunt
+42 #numéro du jeu emprunté
+84 #numéro de l'adhérent
+\end{verbatim}
+
+\subsection{Les structures}
+\label{sec-4-3}
+
+\begin{minted}[]{c}
+typedef struct
+{
+    int id;
+    Date dateEmp;
+    int jeu;
+    int numAd;
+}Emprunt;
+
+typedef struct
+{
+    Emprunt **tab;
+    int nbEmp;
+    int max;
+}TabEmp;
+\end{minted}
+
+\subsection{Structure "Date"}
+\label{sec-4-4}
+
+\begin{minted}[]{c}
+typedef struct
+{
+    int jours;
+    int mois;
+    int annee;
+}Date;
+\end{minted}
+
+La structure "TabEmprunt" est là pour simplifier le routage des données.
+
+\subsection{Traitement des données}
+\label{sec-4-5}
+Lors du lancement du programme, le fichier est lu et chargé en mémoire. L'allocation de mémoire se fait à chaque nouvel élément de façon à ne pas réserver de mémoire inutilement.
+Lors de l'ajout d'un élément, celui ci est inséré à la fin du tableau, est le tri est conservé puisque le numéro du nouveau jeu est le numéro du précédent auquel est ajouté 1.
+
+\subsection{Fonctionnalités}
+\label{sec-4-6}
+Concernant les emprunts, il est possible:
+\begin{itemize}
+\item d'en ajouter de nouveaux
+\item d'en supprimer
+\item d'en modifier
+\item d'en rechercher
+\end{itemize}
+
+\section{Après-midis thématiques}
+\label{sec-5}
+\subsection{Définition}
+\label{sec-5-1}
+Chaque après-midi thématique est caractérisé par :
+\begin{itemize}
+\item Un numéro d'identification unique de cinq caractères numériques (\emph{XXXXX})
+\item Le nom de l'événement
+\item La date de l'événement
+\item L'identifiant du jeu
+\item Le tableau des identifiants des participants à l'après-midi thématique
+\item Le nombre actuel de participants
+\item Le nombre de places maximum disponibles
+\end{itemize}
+
+\subsection{Exemple}
+\label{sec-5-2}
+\begin{verbatim}
+12345      #numéro d'identification
+Mono-polie #nom de l'évenement
+14/03/2017 #date de l'évenement
+78945      #identifiant du jeu
+{
+  45789    #tableau des identifiants des participants
+  12862
+}
+2          #nombre actuel de participant
+5          #nombre maximum de participants possibles
+\end{verbatim}
+
+\subsection{Sauvegarde}
+\label{sec-5-3}
+Les après-midis thématiques sont enregistrés dans un fichier binaire car leur programmation
+est fixe et anticipée. Ces événements seront donc moins enclins à subir des modifications manuelles ; 
+de plus, ce type de sauvegarde s'avère plus sécurisé face à de possibles modifications malicieuses.
+\subsection{Fonctionnalités}
+\label{sec-5-4}
+Liste des fonctionnalités :
+\begin{itemize}
+\item Lister les après-midis thématiques
+\item Lister les adhérents d'un après-midi thématique
+\item Ajouter un après-midi thématique
+\item Ajouter un adhérent à un après-midi thématique
+\item Supprimer un après-midi thématique
+\item Supprimer un adhérent d'un après-midi thématique
+\end{itemize}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

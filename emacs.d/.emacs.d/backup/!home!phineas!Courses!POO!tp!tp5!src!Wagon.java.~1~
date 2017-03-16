@@ -1,0 +1,5 @@
+public class Wagon{
+    public final int CAPACITE=20;
+    private int numero;
+    
+}

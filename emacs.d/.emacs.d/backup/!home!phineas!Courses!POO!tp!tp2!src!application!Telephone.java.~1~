@@ -1,0 +1,34 @@
+package application;
+
+public class Telephone{
+    String numeroAComposer;
+    boolean etatDecroche;
+
+    public void telephoner(){
+	if(numeroAComposer==null){
+	    System.out.println("Aucun numéro à appeler.");
+	}
+	if(!etatDecroche){
+	    System.out.println("Impossible de composer.");
+	}
+	else{
+	    System.out.println("Communication en cours avec le numéro "+numeroAComposer);
+	}
+    }
+
+    public void decrocher(){
+	etatDecroche=!etatDecroche;
+	telephoner();
+    }
+
+    public void raccrocher(){
+	etatDecroche=!etatDecroche;
+	numeroAComposer=null;
+    }
+
+    public void composer(String numero){
+	if(!etatDecroche){
+	    numeroAComposer=numero;
+	}
+    }
+}

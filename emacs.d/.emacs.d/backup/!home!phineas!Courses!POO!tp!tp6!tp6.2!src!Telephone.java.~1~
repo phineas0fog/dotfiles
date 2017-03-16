@@ -1,0 +1,6 @@
+public class Telephone{
+    private boolean decroche;
+    private boolean enCommunication;
+    private String numeroCompose;
+    private 
+}

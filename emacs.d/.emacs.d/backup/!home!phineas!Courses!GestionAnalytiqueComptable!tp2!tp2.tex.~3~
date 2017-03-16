@@ -1,0 +1,84 @@
+% Created 2017-02-08 mer. 11:23
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{Evrard Van Espen}
+\date{}
+\title{Gestion analytique et comptable TP 2}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\section{Journal}
+\label{sec-1}
+
+\begin{center}
+\begin{tabular}{rlll}
+ &  & D & C\\
+\hline
+ & \textbf{01/09} &  & \\
+512 & banque & 30 000 & \\
+101 & capital &  & 30 000\\
+ & \emph{apport du propriétaire} &  & \\
+\hline
+ & \textbf{02/09} &  & \\
+530 & caisse & 400 & \\
+512 & banque &  & 400\\
+ & \emph{retrait pour allimenter la caisse} &  & \\
+\hline
+ & \textbf{03/09} &  & \\
+512 & banque & 40 000 & \\
+164 & établissement de crédit &  & 40 000\\
+ & \emph{emprunt déposé à la banque} &  & \\
+\hline
+ & \textbf{07/09} &  & \\
+2184 & mobilier & 1 500 & \\
+404 & fournisseur immobilisations &  & 1 500\\
+ & \emph{achat de mobilier divers} &  & \\
+\hline
+ & \textbf{08/09} &  & \\
+2183 & matériel de bureau et informatique & 900 & \\
+404 & fournisseur d'immobilisations &  & 900\\
+ & \emph{achat tablette INFOCOM} &  & \\
+\hline
+ & \textbf{09/09} &  & \\
+404 & fournisseur immobilisations & 900 & \\
+512 & banque &  & 900\\
+ & \emph{règlement de la facture du 08-09} &  & \\
+\hline
+ & \textbf{12/09} &  & \\
+607 & achat de marchandises & 8 000 & \\
+401 & fournisseur (Jean) &  & 8 000\\
+ & \emph{achat de produits alimentaires FRAI'UP} &  & \\
+\hline
+ & \textbf{13/09} &  & \\
+411 & client & 5 500 & \\
+707 & vente de marchandises &  & 5 500\\
+ & \emph{vente au client CANTEEN} &  & \\
+\hline
+ &  &  & \\
+\end{tabular}
+\end{center}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

@@ -1,0 +1,98 @@
+conky.config = {
+    alignment = 'top_right',
+    background = false,
+    border_width = 1,
+    cpu_avg_samples = 2,
+	color0 = 'ff8000',
+	color1 = 'd51f1f',
+	color2 = '565853',
+	default_color = 'white',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    draw_shades = true,
+	double_buffer = true,
+    use_xft = true,
+    font = 'DejaVu Sans Mono:size=12',
+    gap_x = 5,
+    gap_y = 0,
+    minimum_height = 5,
+	minimum_width = 5,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'normal',
+    own_window_hints = 'undecorated, below, sticky, skip_taskbar, skip_pager',
+	own_window_transparent = true,
+	own_window_argb_visual = true,
+	pad_percents = 3.0,
+    stippled_borders = 0,
+    update_interval = 1.0,
+    uppercase = false,
+    use_spacer = 'left',
+    show_graph_scale = false,
+    show_graph_range = false
+}
+
+conky.text = [[
+${alignr}${color2}│${color0}
+${alignr}hour${color2}╴─┤${color0}
+${alignr}${color1}[${color0} ${execi 1 date | cut -d " " -f 4 }${color1} ]${color0}${color2}${color2}╴─┘   │${color0}
+${alignr}${color2}│${color0}
+${alignr}system${color2}╴─┤${color0}
+${alignr}uptime${color2}╴─┤   │${color0}
+${alignr}${color1}[${color0} $uptime ${color1}]${color0}${color2}╴─┘   │   │${color0}
+${alignr}${color2}${color0} internet${color2}╴─┘   │${color0}
+${alignr}${color2}${color0} speed${color2}╴─┘       │${color0}
+${alignr}${color2}${color0} ping     ${color1}[${color0} ${execi 10 ping www.google.com -c 1 | grep time= | cut -d " " -f 8 | cut -d = -f 2  } ms ${color1}]${color0}${color2}╴─┤           │${color0}
+${alignr}${color2}${color0} download ${color1}[${color0} ${downspeed enp2s0} ${color1}]${color0}${color2}╴─┤           │${color0}
+${alignr}${color2}${downspeedgraph enp5s0 18, 248 ffd500 ffd500}${color0}${color2}╴─┤           │${color0}
+${alignr}${color2}${color0} upload   ${color1}[${color0} ${upspeed enp2s0} ${color1}]${color0}${color2}╴─┤           │${color0}
+${alignr}${color2}${upspeedgraph enp5s0 18, 248 ffd500 ffd500}${color0}${color2}╴─┘           ${color0}${color2}│${color0}
+${alignr}cpu${color2}╴─┤${color0}
+${alignr}use${color2}╴─┤   │${color0}
+${alignr}${color1}[${color0}${cpu cpu1}% ${color1}]${color0} CPU0 ${color1}[${color0}${cpu cpu2}% ${color1}]${color0} CPU1${color2}╴─┤   │   │${color0}
+${alignr}${color1}[${color0}${cpu cpu3}% ${color1}]${color0} CPU2 ${color1}[${color0}${cpu cpu4}% ${color1}]${color0} CPU3${color2}╴─┤   │   │${color0}
+${alignr}${color2}${cpugraph 18, 248 ffd500 ffd500}${color0}${color2}╴─┘   │   │${color0}
+${alignr}processes${color2}╴─┤   │${color0}
+${alignr}${color1}[${color0}${color0}$processes ${color1}]${color0}   total${color2}╴─┤   │   │${color0}
+${alignr}${color1}[${color0}$running_processes ${color1}]${color0} running${color2}╴─┘   │   │${color0}
+${alignr}name               cpu    mem   pid     ${color2}│       │   │${color0}
+${alignr}${color1}[${color0} ${top name 1} ${top cpu 1} ${top mem 1} ${top pid 1} ${color1}]${color0}${color2}╴─┤       │   │${color0}
+${alignr}${color1}[${color0} ${top name 2} ${top cpu 2} ${top mem 2} ${top pid 2} ${color1}]${color0}${color2}╴─┤       │   │${color0}
+${alignr}${color1}[${color0} ${top name 3} ${top cpu 3} ${top mem 3} ${top pid 3} ${color1}]${color0}${color2}╴─┘       │   │${color0}
+${alignr}temp${color2}╴─┘   │${color0}
+${alignr}${color1}[${color0} ${exec sensors | grep "Physical id 0: " | cut -c 18-21} C ${color1}]${color0}${color2}╴─┘       │${color0}
+${alignr}memory${color2}╴─┤${color0}
+${alignr}ram${color2}╴─┘   │${color0}
+${alignr}${color1}[${color0}$memperc% ${color1}]${color0}${color2}╴─┤       │${color0}
+${alignr}${color1}[${color0} $mem / $memmax ${color1}]${color0}${color2}╴─┤       │${color0}
+${alignr}${color2}${memgraph 18, 248 ffd500 ffd500}${color0}${color2}╴─┘       │${color0}
+${alignr}drives${color2}╴─┤${color0}
+${alignr}usage${color2}╴─┤    │${color0}
+${alignr}${color1}[${color0} ${fs_used /home} / ${fs_size /home} ${color1}]${color0}${color2}╴─┘   │    │${color0}
+${alignr}read${color2}╴─┤    │${color0}
+${alignr}${color2}${diskiograph_read 18, 248 ffd500 ffd500}${color0}${color2}╴─┘   │    │${color0}
+${alignr}write${color2}╴─┘    │${color0}
+${alignr}${color2}${diskiograph_write 18, 248 ffd500 ffd500}${color0}${color2}╴─┘        │${color0}
+${alignr}${color2}│${color0}
+${alignr}todo${color2}╴─┘${color0}
+${alignr}${execi 1 sed -n 1p ~/.todo}${color2}╴─┤    ${color0}
+${alignr}${execi 1 sed -n 2p ~/.todo}${color2}╴─┤    ${color0}
+${alignr}${execi 1 sed -n 3p ~/.todo}${color2}╴─┤    ${color0}
+${alignr}${execi 1 sed -n 4p ~/.todo}${color2}╴─┤    ${color0}
+${alignr}${execi 1 sed -n 5p ~/.todo}${color2}╴─┘    ${color0}
+]]
+
+
+
+
+
+
+

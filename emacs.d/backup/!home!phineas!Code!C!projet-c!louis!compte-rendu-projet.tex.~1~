@@ -1,0 +1,222 @@
+% Created 2017-01-22 dim. 12:59
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{phineas}
+\date{}
+\title{}
+\hypersetup{
+ pdfauthor={phineas},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 25.1.1 (Org mode 9.0.3)}, 
+ pdflang={English}}
+\begin{document}
+
+
+\section{Adhérents}
+\label{sec:org94a63ab}
+\subsection{Définition}
+\label{sec:orgbb87f59}
+Chaque adhérent est caractérisé par :
+\begin{itemize}
+\item Un numéro d'identification unique de cinq caractères numériques (\emph{XXXXX})
+\item Un nom de famille
+\item Un prénom
+\item Sa dernière date de renouvellement (suivant le format suivant : \emph{JJ/MM/AAAA})
+\item Trois emprunts (caractérisés respectivement par le numéro de l'élèment emprunté ou de \emph{-1} si l'emplacement n'est pas utilisé [aucun emprunt])
+\end{itemize}
+
+\subsection{Exemple d'adhérent}
+\label{sec:orge0d2af5}
+\begin{verbatim}
+71485 #numéro d'identification
+Duponet #nom
+Richard #prénom
+30/05/2016 #dernière date de renouvellement
+8541 #emprunt n1
+741 #emprunt n2
+-1 #emprunt n3
+\end{verbatim}
+
+\subsection{La structure}
+\label{sec:org6e41778}
+Pour augmenter la flexibilité et la lisibilité du code source, on décide d'utiliser des constantes de préprocesseurs ("define").
+
+\begin{minted}[]{c}
+#define TAILLENOM 30
+#define TAILLEPRENOM 30
+#define EMPRUNTMAX 3
+
+typedef struct{
+  int numero;
+  char nom[TAILLENOM], prenom[TAILLEPRENOM], dernierRenouvellement[11];
+  int emprunts[EMPRUNTMAX];
+} Adherent;
+\end{minted}
+\subsection{Traitement des données en flux réel}
+\label{sec:orgfae252d}
+Le traitement des adhérents se fait de manière intelligente, c'est-à-dire que les 
+ressources mémoires du tableau de pointeurs pointant sur des structures d'adhérants
+sont constamment réallouées selon la taille totale qu'ils requièrent (avec un pas de 5 éléments).
+Ainsi, à l'initialisation, la suppresion et l'ajout, la taille du tableau est 
+en changement constant, permettant une optimisation des ressources mémoires.
+
+\subsection{Fonctionnalités}
+\label{sec:org1bea6b2}
+Avec ses adhérents, le responsable de la ludothèque peut :
+\begin{itemize}
+\item Lister tous ses adhérents
+\item Les ajouter à l'aide d'une interface
+\item Les supprimer à l'aide d'une interface
+\item Rechercher un adhérent en particulier pour obtenir des informations
+\item Renouveller l'abonnement d'un adhérent
+\item Sauvegarder le nouveau contenu dans un fichier
+\item \ldots{}le tout gérable à travers un menu intéractif.
+\end{itemize}
+\section{Jeux}
+\label{sec:org29279c8}
+\subsection{Définition}
+\label{sec:org91017da}
+Chaque jeu est caractérisé par :
+\begin{itemize}
+\item Un numéro généré automatiquement
+\item Un nom
+\item Une description
+\item Un type
+\item Un thème
+\end{itemize}
+
+\subsection{Exemple de jeu}
+\label{sec:org4c29ae9}
+\begin{verbatim}
+71485 #numéro d'identification
+Naheulbeuk #nom
+Un jeu de rôle basé sur l'univers de naheulbeuk. Rire garanti !
+jeu de role #type
+médiéval-fantastique #theme
+\end{verbatim}
+
+\subsection{Les structures}
+\label{sec:org354601e}
+\begin{minted}[]{c}
+typedef struct
+{
+  int num;
+  char nom[50];
+  char description[500];
+  char type[50];
+  char theme[50];
+}Jeu;
+
+typedef struct
+{
+    Jeu **tab;
+    int nbJeux;
+    int max;
+}TabJeu;
+\end{minted}
+
+La structure "TabJeu" est là pour simplifier le routage des données.
+
+\subsection{Traitement des données}
+\label{sec:orgbeac790}
+Lors du lancement du programme, le fichier est lu et chargé en mémoire. L'allocation de mémoire se fait à chaque nouvel élément de façon à ne pas réserver de mémoire inutilement.
+Lors de l'ajout d'un élément, celui ci est inséré à la fin du tableau, est le tri est conservé puisque le numéro du nouveau jeu est le numéro du précédent auquel est ajouté 1.
+
+\subsection{Fonctionnalités}
+\label{sec:org918399f}
+Concernant les jeux, il est possible:
+\begin{itemize}
+\item d'en ajouter de nouveaux
+\item d'en supprimer
+\item d'en modifier
+\item d'en rechercher
+\end{itemize}
+
+\section{Emprunts}
+\label{sec:org71fbfe3}
+\subsection{Définition}
+\label{sec:org068a6a5}
+Chaque emprunt est caractérisé par :
+\begin{itemize}
+\item Un numéro généré automatiquement
+\item La date à laquelle l'emprunt a été passé
+\item Le numéro du jeu qui a été emprunté
+\item Le numéro de l'adhérent qui a emprunté le jeu
+\end{itemize}
+
+\subsection{Exemple d'emprunt}
+\label{sec:orgbc5a89e}
+\begin{verbatim}
+71485 #numéro d'identification
+24/12/1942 #date de l'emprunt
+42 #numéro du jeu emprunté
+84 #numéro de l'adhérent
+\end{verbatim}
+
+\subsection{Les structures}
+\label{sec:org01d27cf}
+
+\begin{minted}[]{c}
+typedef struct
+{
+    int id;
+    Date dateEmp;
+    int jeu;
+    int numAd;
+}Emprunt;
+
+typedef struct
+{
+    Emprunt **tab;
+    int nbEmp;
+    int max;
+}TabEmp;
+\end{minted}
+
+\subsection{Structure "Date"}
+\label{sec:org3419595}
+
+\begin{minted}[]{c}
+typedef struct
+{
+    int jours;
+    int mois;
+    int annee;
+}Date;
+\end{minted}
+
+La structure "TabEmprunt" est là pour simplifier le routage des données.
+
+\subsection{Traitement des données}
+\label{sec:org8c25f6e}
+Lors du lancement du programme, le fichier est lu et chargé en mémoire. L'allocation de mémoire se fait à chaque nouvel élément de façon à ne pas réserver de mémoire inutilement.
+Lors de l'ajout d'un élément, celui ci est inséré à la fin du tableau, est le tri est conservé puisque le numéro du nouveau jeu est le numéro du précédent auquel est ajouté 1.
+
+\subsection{Fonctionnalités}
+\label{sec:orga8a19bf}
+Concernant les emprunts, il est possible:
+\begin{itemize}
+\item d'en ajouter de nouveaux
+\item d'en supprimer
+\item d'en modifier
+\item d'en rechercher
+\end{itemize}
+\end{document}

@@ -1,0 +1,122 @@
+#+TITLE: Cours POO n°1
+#+LATEX_HEADER: \usepackage[a4paper]{geometry}
+#+LATEX_HEADER: \geometry{hscale=0.85,vscale=0.85,centering}
+#+OPTIONS: toc:nil date:nil
+
+
+* Cours 1 prog objet
+** Définitions
+ Un /objet/ a un *état* un *comportement* et une *identité*.
+*** L'identité
+- un objet forme un tout
+- deux objets différents ont des identités différentes
+- on peux désigner un objet, y faire /référence/.
+
+*** L'état
+- un ensemble de caractéristiques, ou /propriété/
+- des /attributs/
+
+*** Le comportement
+- ensemble des traitements que l'on peut effectuer sur l'objet
+- fonctions décrivant les actions possibles sur/de l'objet. Appelées /méthodes/.
+
+** Mécanique de fonctionnement
+En POO, on s'adresse à un objet par /envoi/ de message => invocation de méthodes
+
+*** Interface de l'objet
+- ensemble des manières dont on dispose pour interagir avec l'objet
+- ensemble des messages reconnus par l'objet.
+
+
+** Notion de base
+Certains objets présentent les mêmes caractéristiques mais ont des identités différentes, bien qu'ils aient les mêmes méthodes.
+
+** Diagramme de classe
+*** Représentation UML
+
+
+| *Livre*          |
+|------------------|
+| auteur: String   |
+| titre: String    |
+| annee: int       |
+| texte: String    |
+|------------------|
+| lire(): void     |
+| imprimer(): void |
+|                  |
+
+** Construction d'objet
+*Programmation* : définition des classes : process d'abstraction
+
+** Concrètement
+
+#+BEGIN_SRC java
+class Livre
+ {
+   String auteur;
+   String titre;
+   int annee;
+
+//constructeur
+ Livre(String unAuteur, String unTitre, int uneAnnee)
+  {
+    auteur = unAuteur;
+    titre = unTitre;
+    annee = uneAnnee;
+  }
+
+//méthodes
+ String retournerAuteur()
+  {
+    return auteur;
+  }
+}
+#+END_SRC
+
+** Définition de la classe
+
+#+BEGIN_SRC java
+class NomDeLaClasse {
+//déclatation des attributs
+
+//déclaration des méthodes
+}
+#+END_SRC
+
+
+- un fichier de classe
+
+*** Constructeur
+
+#+BEGIN_SRC java
+NomDeLaClasse (paramètres) {
+//initialisation et traitements
+}
+#+END_SRC
+
+*** Méthodes
+
+#+BEGIN_SRC java
+type nom (param) {
+//traitements
+return type; //si besoin
+}
+#+END_SRC
+
+*** Signature
+La signature de la méthode est son /nom/ et /le type des params/
+
+- impossible d'avoir deux méthodes de même signature au sein d'une même classe !
+
+** Manipulation de l'objet
+- il est possible de nommer un objet créé pour pouvoir y faire référence par la suite
+  - on précise le type (classe) de la référence
+  - on nomme la référence
+  - on affecte une valeur
+
+- détruire l'objet ?
+  - but: libérer la mémoire occupée par l'objet
+  - pas de destructeur explicite --> le /garbage collector/ le fait tout seul !
+
+

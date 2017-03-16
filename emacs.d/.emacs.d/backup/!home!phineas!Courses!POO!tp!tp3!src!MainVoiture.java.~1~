@@ -1,0 +1,47 @@
+public class ProgPrincipal{
+    public static void main(String[] args){
+	Voiture v = new Voiture("rouge", 200);
+	try{
+	    v.accelerer(-500);
+	}
+	catch(Exception e){
+	    System.out.println(e.getMessage());
+	}
+	System.out.println(v.toString());
+	
+	try{
+	    v.accelerer(500);
+	}
+	catch(Exception e){
+	    System.out.println(e.getMessage());
+	}
+	System.out.println(v.toString());
+	
+	try{
+	    v.freiner(100);
+	}
+	catch(Exception e){
+	    System.out.println(e.getMessage());
+	}
+	System.out.println(v.toString());
+	
+	try{
+	    v.accelerer(100);
+	}
+	catch(Exception e){
+	    System.out.println(e.getMessage());
+	}
+	System.out.println(v.toString());
+
+	v.demarrer();
+
+	try{
+	    v.accelerer(100);
+	}
+	catch(Exception e){
+	    System.out.println(e.getMessage());
+	}
+	System.out.println(v.toString());
+	
+    }
+}

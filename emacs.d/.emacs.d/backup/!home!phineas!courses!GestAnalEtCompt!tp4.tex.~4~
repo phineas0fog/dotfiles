@@ -1,0 +1,54 @@
+% Created 2017-03-08 mer. 11:12
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\author{Evrard Van Espen}
+\date{\today}
+\title{tp4}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\begin{center}
+\begin{tabular}{lrlllrrrrr}
+Intitulé & Charges réelles & Analyse de pertinence &  &  & Charges globales & Analyse de dépendance &  & Analyse de spécificité & \\
+\hline
+ &  & Non incor & Supplétives & Diff incor &  & Charges opé & De struc & Directes & Indir\\
+\hline
+conso de mat 1eres & 61000 &  &  &  & 61000 & 61000 &  & 61000 & \\
+charges ext & 63000 &  &  &  & 63000 &  & 63000 &  & 63000\\
+autres ch ex & 20000 &  &  &  & 20000 &  & 20000 &  & 20000\\
+impots et taxes & 2200 &  &  &  & 2200 & 2200 &  &  & 2200\\
+charges de perso & 60000 &  &  &  & 60000 &  & 60000 & 25000 & 35000\\
+charges sociales & 29200 &  &  &  & 29200 &  & 29200 & 11200 & 18000\\
+autres charges & 8800 &  &  &  & 8800 &  & 8800 &  & 8800\\
+dot aux ammort & 20000 &  &  & -8000 & 12000 &  & 12000 &  & 12000\\
+charges fin \& int & 3000 &  &  &  & 3000 &  & 3000 &  & 3000\\
+charges excep & 15300 & -15300 &  &  &  &  &  &  & \\
+charges supp &  &  & 10000 &  & 1000 &  & 10000 & 10000 & \\
+\hline
+TOTAL & 282500 & -15300 & 10000 & -8000 & 260200 &  & 214000 & 107200 & 162000\\
+\end{tabular}
+\end{center}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

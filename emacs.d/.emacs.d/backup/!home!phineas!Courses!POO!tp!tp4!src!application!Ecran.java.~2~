@@ -1,0 +1,76 @@
+package application;
+import java.util.Random;
+
+public class Ecran{
+    private int nombreDeLignes;
+    private int nombreDeColonnes;
+    private Ampoule daleGraphique[][];
+
+    public Ecran(int nbLignes, int nbColonnes) throws Exception{
+	if(nbLignes < 0 || nbColonnes < 0){
+	    throw new Exception("une des valeur est négative !");
+	}
+	nombreDeLignes = nbLignes;
+	nombreDeColonnes = nbColonnes;
+	daleGraphique = new Ampoule[nombreDeLignes][nombreDeColonnes];
+	for(int i = 0; i < nombreDeLignes; i++){
+	    for(int j = 0; j < nombreDeColonnes; i++){
+		daleGraphique[i][j] = new Ampoule();
+	    }
+	}
+    }
+
+    public boolean toutAllumer(){
+	boolean b;
+	for(int i = 0; i < nombreDeLignes; i++){
+	    for(int j = 0; j < nombreDeColonnes; j++){
+		b = daleGraphique[nombreDeLignes][nombreDeColonnes].allumer();
+		if(!b){
+		    return false;
+		}
+	    }
+	}
+	return true;
+    }
+
+    public void toutEteindre(){
+	for(int i = 0; i < nombreDeLignes; i++){
+	    for(int j = 0; j < nombreDeColonnes; j++){
+		daleGraphique[nombreDeLignes][nombreDeColonnes].eteindre();
+	    }
+	}
+    }
+
+    public boolean changerEtat(int indiceLigne, int indiceColonne) throws Exception{
+	if(indiceLigne > nombreDeLignes || indiceColonne > nombreDeColonnes || indiceLigne < 0 || indiceColonne < 0){
+	    throw new Exception("paramètre(s) invalide(s)");
+	}
+	else{
+	    boolean b = daleGraphique[indiceLigne][indiceColonne].inverserEtat();
+	    return b;
+	}
+    }
+
+    public void changerAmpoule(int indiceLigne, int indiceColonne, Ampoule autreAmpoule) throws Exception{
+	if(indiceLigne > nombreDeLignes || indiceColonne > nombreDeColonnes || indiceLigne < 0 || indiceColonne < 0){
+	    throw new Exception("paramètre(s) invalide(s)");
+	}
+	else{
+	    daleGraphique[indiceLigne][indiceColonne] = autreAmpoule;
+	}
+    }
+
+    public void faireClignoter(int nombreDeFois){
+	Random rand = new Random();
+	for(int i = 0; i < rand.nextInt(49)+1; i++){
+	    daleGraphique[rand.nextInt(nombreDeLignes)][rand.nextInt(nombreDeColonnes)].inverserEtat();
+	}
+    }
+
+    public void dessinerEcran(){
+	for(int i = 0; i < nombreDeColonnes+2; i++){
+	    System.out.print("-");
+	}
+	System.out.println("XXXXX");
+    }
+}

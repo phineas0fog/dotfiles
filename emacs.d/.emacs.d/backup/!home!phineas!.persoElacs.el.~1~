@@ -1,0 +1,2 @@
+(load-file "/usr/share/emacs/site-lisp/cedet/cedet-devel-load.el")
+(semantic-load-enable-code-helpers)

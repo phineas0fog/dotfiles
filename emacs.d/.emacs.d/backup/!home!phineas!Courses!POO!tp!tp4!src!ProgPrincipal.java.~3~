@@ -1,0 +1,15 @@
+import application.*;
+
+public class ProgPrincipal{
+    public static void main(String[] args){
+	try{
+	    Ecran ecran = new Ecran(10, 20);
+	    ecran.toutAllumer();
+	    ecran.dessinerEcran();
+	}
+	catch(Exception e){
+	    System.out.println("jgvbhkl");
+	    System.out.println(e.getMessage());
+	}
+    }
+}

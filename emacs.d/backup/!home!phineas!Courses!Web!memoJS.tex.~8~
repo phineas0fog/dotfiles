@@ -1,0 +1,50 @@
+% Created 2017-02-05 dim. 23:30
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\usemintedstyle{emacs}
+\author{Evrard Van Espen}
+\date{}
+\title{Mémo JavaScript}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\section{Fonctions de base}
+\label{sec-1}
+-Afficher une boite de dialoge avec \emph{string} d'écrit
+\begin{minted}[]{js}
+alert(string);
+\end{minted}
+-Demander une saisie à l'utilisateur
+\begin{minted}[]{js}
+var VARIABLE = prompt(string);
+\end{minted}
+-Concatener des string
+\begin{minted}[]{js}
+var string1, string2;
+var concat = string1 + string2;
+\end{minted}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

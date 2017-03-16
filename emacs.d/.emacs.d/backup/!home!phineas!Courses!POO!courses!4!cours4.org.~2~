@@ -1,0 +1,206 @@
+#+TITLE: Cours POO n4
+#+LATEX_HEADER: \usepackage[a4paper]{geometry}
+#+LATEX_HEADER: \geometry{hscale=0.85,vscale=0.85,centering}
+#+OPTIONS: toc:nil date:nil
+
+* L'héritage
+** UML
+#+BEGIN_SRC plantuml :file out.png
+skinparam nomochrome true
+Point2D <|- Point2DGraphique
+#+END_SRC
+#+latex:\begin{center}\includegraphics[scale=0.7]{out.png}\end{center}
+
+** Terminologie
+- L'héritage permet de reprendre des carac d'une classe *M*, la nouvelle classe fille *F*.
+  - *M* est la /super classe/ de *F*
+  - La classe *F* /hérite/ de la classe *M*
+  - La classe *F* est une /sous classe/ de *M*
+** Généralisation / spécialisation
+La généralisation exprime une relation /est-un/ /(is-a)/ entre une classe et sa super classe.
+
+- Utilisation de l'héritage
+  - dans le sens de /spécialisation/ pour *réutiliser*
+  - dans le sens de /généralisation/ pour *abstraire*
+- Pas de limitation dans le nombre de niveaux d'abstraction dans la hiérarchie
+- Méthodes et attributs sont hérités au travers de tous les niveaux
+** Héritage en JAVA
+Mot clé =extends=
+
+#+BEGIN_SRC java
+class Derivee extends Base{
+...
+}
+#+END_SRC
+
+- Héritage simple: une classe ne peut dériver que *d'une et d'une seule* autre classe
+- Hiérarchie d'héritage: arbre avec la classe =Object= comme racine
+  - toute classe autre que =Object= possède une super classe
+- Une classe déclarée =final= _ne peut pas être dérivée_.
+** La classe =Object=
+#+BEGIN_SRC java
+public final Class<?> getClass() //renvoie la référence de l'objet représentant la classe
+public boolean equals(Object obj) //teste l'égalité entre les objets
+public int hashCode() //renvoie une clée de hachage relative à l'objet
+public String toString() //renvoie une chaîne de caractères représentant l'objet
+                         //par défaut renvoie (nomClasse+@+hashCodeEnHexa)
+#+END_SRC
+** Contructeurs d'une classe dérivée
+- Les constructeurs ne sont pas hérités !
+- Appel au contructeur de la classe de base: mot clé =super=
+
+#+BEGIN_SRC plantuml :file out2.png
+Guerrier : nom String
+Guerrier : pdv int
+Guerrier : Guerrier(nom: String, pdv: int)
+
+Archer : porteeAttaque int
+Archer : Archer(nom: String, pdv: int, portee: int)
+
+Guerrier <|- Archer
+#+END_SRC
+#+latex:\begin{center}\includegraphics[scale=0.7]{out2.png}\end{center}
+
+#+BEGIN_SRC java
+public class Archer extends Guerrier{
+  private int porteeAttaque;
+
+  public Archer (String nom, int pdv, int portee){
+    super(nom, pdv);
+    porteeAttaque = portee;
+  }
+}
+#+END_SRC
+
+- =super(..)= doit être la *première* instruction du builder
+** Surclassement
+- La réutilisation du code est un aspect important de l'héritage
+- Un deuxième point fondamental est la relation qui relie une classe à sa super-classe
+- Une classe *B* qui hérite de la classe *A* peut être vue comme un sous-type du type défini par la classe *A*
+
+#+BEGIN_SRC plantuml :file out3.png
+Etudiant <|- EtudiantSportif
+#+END_SRC
+#+LATEX: \begin{center}\includegraphics[scale=0.7]{out3.png}\end{center}
+
+Un =EtudiantSportif= _est_ un =Etudiant=.
+
+- Tout objet instance de la classe *B* peut être vu comme un objet de la classe *A*
+- À une référence délcarée de type *A* il est possible d'affecter une valeur qui ets une référence vers un objet de type *B*
+  - c'est ce qu'on appelle *surclassement* (ou *upcasting*)
+- Lorqu'un objet est "surclassé", il est vu comme un objet du type de la référence utilisée pour le désigner
+** Référence vers une classe dérivée en JAVA
+- Le surclassement est directement supporté en JAVA
+
+#+BEGIN_SRC java
+Archer robin = new Archer("Robin des bois", 100, 22);
+#+END_SRC
+
+- Mais comme =Archer= dérive de =Guerrier= on peut faire
+#+BEGIN_SRC java
+Guerrier robin = new Archer(...);
+#+END_SRC
+** Redéfinition
+- Une sous-classe peut /ajouter/ des attributs ou des méthodes à ceux qu'elle hérite de sa super-classe
+- Une sous-classe peut *redéfinir* /(override)/ les méthodes dont elle hérite
+
+On dit qu'une classe/redéfinit/ une méthode lorsqu'elle définit une méthode de même signature que celle d'une méthode héritée
+** Mise au point sur la visibilité
+
+|                   | private | (package) | protected | public |
+|-------------------+---------+-----------+-----------+--------|
+| classe elle meme  | oui     | oui       | oui       | oui    |
+| classe même pckg  | non     | oui       | oui       | oui    |
+| classe dérivée    | non     | oui       | oui       | oui    |
+| classe autre pckg | non     | oui       | oui       | oui    |
+
+** Masquage
+Lorsqu'une classe dérivée définit une variable d'instance dont le nom est identique à l'une des variable dont elle hérite, la nouvelle définition /masque/ la définition héritée.
+
+#+BEGIN_SRC java
+public class Base{
+  protected int x=42;
+}
+public class Derivee extends Base{
+  protected double x=3.14;
+}
+public class EncoreDerivee extends Derivee{
+  protected char x='A';
+}
+#+END_SRC
+
+- Depuis =EncoreDerivee=
+ - x ou this.x vaut 'A'
+ - super.x vaut 3.14
+
+** Redéfinition des méthodes
+- Les méthodes d'instance de même signature ne sont pas masquées: elles sont redéfinies
+- Attention à ne pas confindre *redéfinition* /(overriding)/ et *surcharge* /(overloading)/
+- utiliser =@Override= pour les redéfinitions (aide le compilo)
+
+#+BEGIN_SRC java
+public class Base{
+  public void Foo(int i){}
+}
+public class Derivee1{
+  public Foo(float i){} //overload
+}
+public class Derivee2{
+  public Foo(int i){}   //override
+}
+#+END_SRC
+
+Une méthode redéfinie peut appeller la méthode de la super classe avec le mot clé =super=
+#+BEGIN_SRC java
+public class Foo{
+  ...
+  void paint(){}
+}
+public class Bar extends Foo{
+  ...
+  void paint(){
+    super.paint();
+  }
+}
+#+END_SRC
+
+** Lien dynamique
+*** Résolution des messages
+Lorsqu'une methode d'un obj est accédée au travers d'une référence /surclassée/, c'est la méthode telle qu'elle est définie au niveau de la classe effective de l'obj qui est en fait invoqauée et exécutée.
+
+- Les messages sont résolus à l'exécution
+  - La méthode exécutée est déterminée lors de l'exécution et non à la compilation
+- Ce mécanisme est désigné sous le terme de *laison dynamique* /(dynamic binding, late binding)/
+
+** Règles de la redéfinition en JAVA
+#+BEGIN_SRC plantuml :file out4.png
+Base : faireUnTruc()
+
+Derivee : faireUnTruc()
+
+Base <|- Derivee
+#+END_SRC
+#+LATEX: \begin{center}\includegraphics[scale=0.7]{out4.png}\end{center}
+
+1. L'appel =b.faireUnTruc()= devra exécuter la méthode de la classe =Derivee=
+2. La visibilité de =faireUnTruc()= dans =Derivee= ne peut pas être plus restreinte que celle dans =Base=
+3. La méthode de =Derivee= doit avoir le même modificateur d'instance que celle de =Base=
+4. Même type de retour ou type dérivé
+5. La liste des exceptions vérifées lancées dans la méthode de =Derivee= ne peut être plus grand que celle déclarée dans la méthode de =Base=
+
+*** Attention !
+- Les méthodes déclarées =final= _ne peuvent pas être dérivées_
+- Les méthodes *privées* et les méthodes de classe (/static/) ne suivent pas les règles de la *redéfinition*, mais celles du *masquage*
+- Les constructeurs ne peuvent pas être redéfinis
+- Les règles de redéfinition ne s'applique que si =Base= est visible depuis =Derivee=
+
+** Polymorphisme
+C'est la caractéristique d'un élément qui peut prendre plusieurs formes.
+
+** Transtypage /(cast)/
+#+BEGIN_SRC java
+Guerrier robin = new Archer... //upcasting
+Archer batman = (Archer) robin; //downcasting
+#+END_SRC
+
+

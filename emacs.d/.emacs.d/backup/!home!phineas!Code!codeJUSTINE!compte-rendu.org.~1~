@@ -1,0 +1,27 @@
+#+TITLE: Compte rendu projet de C
+#+AUTHOR: Justine Bachelard, Léo Malleret
+#+LATEX_HEADER: \usepackage[a4paper]{geometry}
+#+LATEX_HEADER: \geometry{hscale=0.85,vscale=0.85,centering}
+#+OPTIONS: toc:nil date:nil
+
+* Définitions des structures
+#+BEGIN_SRC C
+typedef struct {
+    int noad;
+    char prenom[15];
+    char nom[15];
+    Date inscrip;
+} Adherent;
+
+typedef struct{
+	char nom[30];
+	int nbJoueursMax;
+	int nbexemplaire;
+} Jeu;
+
+typedef struct {
+    Adherent *ad;
+    int nbemp;
+    listeEmp lemp;
+} Emprunt;
+#+END_SRC

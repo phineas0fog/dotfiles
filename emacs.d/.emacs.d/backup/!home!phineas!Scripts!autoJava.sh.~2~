@@ -1,0 +1,50 @@
+#!/bin/env sh
+
+echo "***** Interface d'automatisation JAVA *****";
+echo "1-  Créer nouveau TP";
+
+read choix;
+
+function infoPWD(){
+    echo "INFO: position: " $(pwd);
+}
+
+case $choix in
+    1 )
+	echo "**** Numéro ? ****";
+	read num;
+	mkdir tp$num;
+	if [ -d ./tp$num ]; then echo "Créé !"; else echo "PROBLEME !"; fi
+	cd tp$num;
+
+	infoPWD;
+	
+	echo "**** Ajouter des fichiers ? ****";
+	read choix;
+	case $choix in
+	    1 )
+		while [ $choix == 1 ]
+		do
+		    echo "*** Entrer le nom du package ***"
+		    read nom;
+		    mkdir $nom;
+		    echo "*** Ajouter des classes ? (1-oui, 0-non) ***";
+		    read choix2;
+		    case $choix2 in
+			1 )
+			    cd $nom;
+			    infoPWD;
+			    while [ $choix2 == 1 ]
+			    do
+				echo "** Entrer nom de la classe **";
+				read nomClasse;
+				touch $nomClasse.java;
+				echo "** Visibilité ? (+,-,#,)"
+				echo "** Ajouter d'autres classes ? (0-oui, 1-non )**";
+				read choix2;
+			    done
+		    esac
+		done
+	esac	
+esac
+

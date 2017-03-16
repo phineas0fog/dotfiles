@@ -1,0 +1,16 @@
+public class Ecran{
+    private int nbDeLignes;
+    private int nbDeColonnes;
+
+    public Ecran(int nbLignes, int nbColonnes) throws Exception{
+	if(nbLignes < 0 || nbColonnes < 0){
+	    throw new Exception("une des valeur est négative !");
+	}
+	else{
+	    nbDeLignes = nbLignes;
+	    nbDeColonnes = nbColonnes,
+	}
+    }
+
+    
+}

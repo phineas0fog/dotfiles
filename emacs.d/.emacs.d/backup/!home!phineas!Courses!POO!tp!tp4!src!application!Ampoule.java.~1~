@@ -1,0 +1,55 @@
+package application;
+import java.util.Random;
+
+/**
+ * @author Evrard Van Espen
+ */
+
+public class Ampoule{
+    boolean allume=false;
+    int dureeVie=5;
+
+    public Ampoule(){
+	dureeVie = new Random().nextInt(26) + 5;
+    }
+    
+    public boolean allumer(){
+	if(dureeVie == 0){
+	    allume = false;
+	    return false;
+	}
+	else{
+	    allume = true;
+	    dureeVie--;
+	    return true;
+	}
+    }
+
+    public void eteindre(){
+	allume=false;
+    }
+
+    public void afficherEtat(){
+	if(dureeVie != 0){
+	    if(allume){
+		System.out.println("*");
+	    }
+	    else if(!allume){
+		System.out.println(" ");
+	    }
+	}
+	else{
+	    System.out.println(".");
+	}
+    }
+
+    public boolean isGrillee(){
+	return dureeVie == 0 ? 1 : 0;
+    }
+
+    public boolean inverseEtat(){
+	boolean ancienEtat = allume;
+	allume = !allume;
+	return allume == ancienEtat ? false : true;
+    }
+}

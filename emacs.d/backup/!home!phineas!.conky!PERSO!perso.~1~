@@ -1,0 +1,5 @@
+own_window yes
+update_interval 1
+double_buffer yes
+
+TEXT

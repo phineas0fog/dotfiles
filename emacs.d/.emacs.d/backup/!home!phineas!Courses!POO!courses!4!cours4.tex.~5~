@@ -1,0 +1,90 @@
+% Created 2017-02-27 lun. 14:53
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{Evrard Van Espen}
+\date{}
+\title{Cours POO n4}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\section{L'héritage}
+\label{sec-1}
+\subsection{UML}
+\label{sec-1-1}
+\begin{center}\includegraphics[scale=0.7]{out.png}\end{center}
+
+\subsection{Terminologie}
+\label{sec-1-2}
+\begin{itemize}
+\item L'héritage permet de reprendre des carac d'une classe \textbf{M}, la nouvelle classe fille \textbf{F}.
+\begin{itemize}
+\item \textbf{M} est la \emph{super classe} de \textbf{F}
+\item La classe \textbf{F} \emph{hérite} de la classe \textbf{M}
+\item La classe \textbf{F} est une \emph{sous classe} de \textbf{M}
+\end{itemize}
+\end{itemize}
+\subsection{Généralisation / spécialisation}
+\label{sec-1-3}
+La généralisation exprime une relation \emph{est-un} \emph{(is-a)} entre une classe et sa super classe.
+
+\begin{itemize}
+\item Utilisation de l'héritage
+\begin{itemize}
+\item dans le sens de \emph{spécialisation} pour \textbf{réutiliser}
+\item dans le sens de \emph{généralisation} pour \textbf{abstraire}
+\end{itemize}
+\item Pas de limitation dans le nombre de niveaux d'abstraction dans la hiérarchie
+\item Méthodes et attributs sont hérités au travers de tous les niveaux
+\end{itemize}
+\subsection{Héritage en JAVA}
+\label{sec-1-4}
+Mot clé \texttt{extends}
+
+\begin{minted}[]{java}
+class Derivee extends Base{
+...
+}
+\end{minted}
+
+\begin{itemize}
+\item Héritage simple: une classe ne peut dériver que \textbf{d'une et d'une seule} autre classe
+\item Hiérarchie d'héritage: arbre avec la classe \texttt{Object} comme racine
+\begin{itemize}
+\item toute classe autre que \texttt{Object} possède une super classe
+\end{itemize}
+\item Une classe déclarée \texttt{final} \uline{ne peut pas être dérivée}.
+\end{itemize}
+\subsection{La classe \texttt{Object}}
+\label{sec-1-5}
+\begin{minted}[]{java}
+public final Class<?> getClass() //renvoie la référence de l'objet représentant la classe
+public boolean equals(Object obj) //teste l'égalité entre les objets
+public int hashCode() //renvoie une clée de hachage relative à l'objet
+public String toString() //renvoie une chaîne de caractères représentant l'objet
+                         //par défaut renvoie (nomClasse+@+hashCodeEnHexa)
+\end{minted}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

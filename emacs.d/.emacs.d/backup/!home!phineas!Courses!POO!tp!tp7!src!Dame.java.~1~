@@ -1,0 +1,8 @@
+public class Dame extends Humain{
+    private String couleurRobe;
+    private boolean captive = false;
+
+    public Dame(Strind nom, String boisson, String couleurRobe){
+	super(nom, boisson);
+	this.courleurRobe=couleurRobe;}
+}

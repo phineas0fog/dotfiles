@@ -1,0 +1,288 @@
+% Created 2017-02-08 mer. 11:53
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{Evrard Van Espen}
+\date{}
+\title{Gestion analytique et comptable TP 2}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\section{Journal}
+\label{sec-1}
+
+\begin{center}
+\begin{tabular}{rlll}
+ &  & D & C\\
+\hline
+ & \textbf{01/09} &  & \\
+512 & banque & 30 000 & \\
+101 & capital &  & 30 000\\
+ & \emph{apport du propriétaire} &  & \\
+\hline
+ & \textbf{02/09} &  & \\
+530 & caisse & 400 & \\
+512 & banque &  & 400\\
+ & \emph{retrait pour allimenter la caisse} &  & \\
+\hline
+ & \textbf{03/09} &  & \\
+512 & banque & 40 000 & \\
+164 & établissement de crédit &  & 40 000\\
+ & \emph{emprunt déposé à la banque} &  & \\
+\hline
+ & \textbf{07/09} &  & \\
+2184 & mobilier & 1 500 & \\
+404 & fournisseur immobilisations &  & 1 500\\
+ & \emph{achat de mobilier divers} &  & \\
+\hline
+ & \textbf{08/09} &  & \\
+2183 & matériel de bureau et informatique & 900 & \\
+404 & fournisseur d'immobilisations &  & 900\\
+ & \emph{achat tablette INFOCOM} &  & \\
+\hline
+ & \textbf{09/09} &  & \\
+404 & fournisseur immobilisations & 900 & \\
+512 & banque &  & 900\\
+ & \emph{règlement de la facture du 08-09} &  & \\
+\hline
+ & \textbf{12/09} &  & \\
+607 & achat de marchandises & 8 000 & \\
+401 & fournisseur (Jean) &  & 8 000\\
+ & \emph{achat de produits alimentaires FRAI'UP} &  & \\
+\hline
+ & \textbf{13/09} &  & \\
+411 & client & 5 500 & \\
+707 & vente de marchandises &  & 5 500\\
+ & \emph{vente au client CANTEEN} &  & \\
+\hline
+ & \textbf{14/09} &  & \\
+512 & banque & 5 500 & \\
+411 & client (Paul) &  & 5 500\\
+ & \emph{Paul paie sa dette} &  & \\
+\hline
+ & \textbf{26/09} &  & \\
+2182 & matériel de transport & 8 000 & \\
+404 & fournisseur d'immobilisations &  & 8 000\\
+ & \emph{achat d'une camionnette} &  & \\
+\hline
+ & \textbf{28/09} &  & \\
+401 & fournisseur & 4 000 & \\
+512 & banque &  & 4 000\\
+ & \emph{règlement de la moitié de la dette du 12} &  & \\
+\hline
+ & \textbf{29/09} &  & \\
+641 & rémunération du personnel & 4 000 & \\
+512 & banque &  & 4 000\\
+ & \emph{paiement des salaires de spetembre} &  & \\
+\hline
+ &  &  & \\
+\end{tabular}
+\end{center}
+
+\section{Grand livre}
+\label{sec-2}
+\subsection{Capital 101}
+\label{sec-2-1}
+\begin{center}
+\begin{tabular}{ll}
+D & C\\
+\hline
+ & 30 000\\
+sc=30 000 & \\
+\hline
+30 000 & 30 000\\
+\end{tabular}
+\end{center}
+
+\subsection{Emprunts auprès d'un établissement de crédit 164}
+\label{sec-2-2}
+\begin{center}
+\begin{tabular}{ll}
+D & C\\
+\hline
+ & 40 000\\
+sc=40 000 & \\
+\hline
+40 000 & 40 000\\
+\end{tabular}
+\end{center}
+
+\subsection{Matériel de transport 2182}
+\label{sec-2-3}
+\begin{center}
+\begin{tabular}{ll}
+D & C\\
+\hline
+8 000 & \\
+ & sd=8 000\\
+\hline
+8 000 & 8 000\\
+\end{tabular}
+\end{center}
+
+\subsection{Matériel de bureau et informatique 2183}
+\label{sec-2-4}
+\begin{center}
+\begin{tabular}{rl}
+D & C\\
+\hline
+900 & \\
+ & sd=900\\
+\hline
+900 & 900\\
+\end{tabular}
+\end{center}
+
+\subsection{Mobilier 2184}
+\label{sec-2-5}
+\begin{center}
+\begin{tabular}{ll}
+D & C\\
+\hline
+1 500 & \\
+ & sd=1 500\\
+\hline
+1 500 & 1 500\\
+\end{tabular}
+\end{center}
+
+\subsection{Fournisseur 401}
+\label{sec-2-6}
+\begin{center}
+\begin{tabular}{ll}
+D & C\\
+\hline
+ & 8 000\\
+4 000 & \\
+sc=4 000 & \\
+\hline
+8 000 & 8 000\\
+\end{tabular}
+\end{center}
+
+\subsection{Fournisseur d'immobilisation 404}
+\label{sec-2-7}
+\begin{center}
+\begin{tabular}{ll}
+D & C\\
+\hline
+ & 1 500\\
+ & 900\\
+900 & \\
+ & 8 000\\
+sc=9500 & \\
+\hline
+10400 & 10400\\
+\end{tabular}
+\end{center}
+
+\subsection{Client 411}
+\label{sec-2-8}
+\begin{center}
+\begin{tabular}{ll}
+D & C\\
+\hline
+5 500 & \\
+ & 5 500\\
+\hline
+5 500 & 5 500\\
+\end{tabular}
+\end{center}
+
+\subsection{Banque 512}
+\label{sec-2-9}
+\begin{center}
+\begin{tabular}{ll}
+D & C\\
+\hline
+30 000 & \\
+ & 400\\
+40 000 & \\
+ & 900\\
+5 500 & \\
+ & 4 000\\
+ & 4 000\\
+ & sd=66 200\\
+\hline
+75 500 & 75 500\\
+\end{tabular}
+\end{center}
+
+\subsection{Caisse 530}
+\label{sec-2-10}
+\begin{center}
+\begin{tabular}{rl}
+D & C\\
+\hline
+400 & \\
+ & sd=400\\
+\hline
+400 & 400\\
+\end{tabular}
+\end{center}
+
+\subsection{Achat de marchandises 607}
+\label{sec-2-11}
+\begin{center}
+\begin{tabular}{ll}
+D & C\\
+\hline
+8 000 & \\
+ & sd=8 000\\
+\hline
+8 000 & 8 000\\
+\end{tabular}
+\end{center}
+
+\subsection{Rémunération du personnel 641}
+\label{sec-2-12}
+\begin{center}
+\begin{tabular}{ll}
+D & C\\
+\hline
+4 000 & \\
+ & sd=4 000\\
+\hline
+4 000 & 4 000\\
+\end{tabular}
+\end{center}
+
+\subsection{Vente de marchandises 707}
+\label{sec-2-13}
+\begin{center}
+\begin{tabular}{ll}
+D & C\\
+\hline
+ & 5 500\\
+sc=5 500 & \\
+\hline
+5 500 & 5 500\\
+\end{tabular}
+\end{center}
+
+\section{Balance}
+\label{sec-3}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

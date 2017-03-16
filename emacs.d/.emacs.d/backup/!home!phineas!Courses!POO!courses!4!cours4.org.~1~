@@ -1,0 +1,16 @@
+#+TITLE: Cours POO n4
+#+LATEX_HEADER: \usepackage[a4paper]{geometry}
+#+LATEX_HEADER: \geometry{hscale=0.85,vscale=0.85,centering}
+#+OPTIONS: toc:nil date:nil
+
+* L'héritage
+** UML
+#+BEGIN_SRC plantuml :file out.png
+Point2D <|- Point2DGraphique
+#+END_SRC
+** Terminologie
+- L'héritage permet de reprendre des carac d'une classe *M*, la nouvelle classe fille *F*.
+  - *M* est la /super classe/ de *F*
+  - La classe *F* /hérite/ de la classe *M*
+  - La classe *F* est une /sous classe/ de *M*
+

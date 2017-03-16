@@ -1,0 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+  FILE *fe;
+  fe = fopen("balance", "w+");
+  if(fe==NULL){printf("err fichier\n"); exit(1);}
+}

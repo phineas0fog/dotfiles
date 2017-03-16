@@ -1,0 +1,114 @@
+* journal
+|      |                                     |     D |    C |
+|      | *01/04*                             |       |      |
+|  512 | banque                              | 10000 |      |
+|  101 | capital                             |       | 1000 |
+|      | /constitution ent/                  |       |      |
+|      | *02/04*                             |       |      |
+|  607 | achat de marchandises               | 20000 |      |
+|  401 | fournisseur                         |       | 2000 |
+|      | /facture 123/                       |       |      |
+|      | *03/04*                             |       |      |
+| 2182 | materiel de transport               |  1500 |      |
+|  512 | banque                              |       | 1500 |
+|      | /règlement véhicule de tansport/    |       |      |
+|      | *30/04*                             |       |      |
+|  512 | banque                              |  5000 |      |
+|  530 | caisse                              |       | 5000 |
+|      | /virement de la caisse à la banque/ |       |      |
+
+
+* grand livre
+
+/sc/ solde créditeur
+/sd/ solde débiteur
+/si/ solde initial
+
+** Capital *101*
+| D          |     C |
+|------------+-------|
+|            | 10000 |
+| sc=10000   |       |
+|------------+-------|
+| 10000      | 10000 |
+
+** Matériel de transport *218*
+ | D    |       C |
+ |------+---------|
+ | 1500 |         |
+ |      | sd=1500 |
+ |------+---------|
+ | 1500 |    1500 |
+
+** Fournisseur *401*
+ | D        |     C |
+ |----------+-------|
+ |          |  si=0 |
+ |          | 20000 |
+ |     5000 |       |
+ | sc=15000 |       |
+ |----------+-------|
+ |    20000 | 20000 |
+
+** Client *411*
+ | D     |       C |
+ |-------+---------|
+ |  si=0 |         |
+ | 12000 |    6000 |
+ |       | sd=6000 |
+ |-------+---------|
+ | 12000 |   12000 |
+
+** Banque *512*
+ | D     |       C |
+ |-------+---------|
+ |  sd=0 |         |
+ | 10000 |    1500 |
+ |  2000 |    5000 |
+ |  5000 |    3000 |
+ |       |    4000 |
+ |       | sd=3500 |
+ |-------+---------|
+ | 17000 |   17000 |
+
+** Caisse *530*
+ | D    |       C |
+ |------+---------|
+ | sd=0 |         |
+ | 6000 |         |
+ | 1000 | 5000    |
+ |      | sd=2000 |
+ |------+---------|
+ | 7000 | 7000    |
+
+** Achat de marchandises *607*
+ | D     |        C |
+ |-------+----------|
+ | 20000 |          |
+ |  4000 | sd=24000 |
+ |-------+----------|
+ | 24000 | 24000    |
+
+** Rémunération du personnel *641*
+ | D    |       C |
+ |------+---------|
+ | 3000 |         |
+ |      | sd=3000 |
+ |------+---------|
+ | 3000 | 3000    |
+
+** Ventes de marchandises *707*
+ | D        |     C |
+ |----------+-------|
+ |          | 12000 |
+ |          |  3000 |
+ | sc=15000 |       |
+ |----------+-------|
+ | 15000    | 15000 |
+
+
+On va maintenant pouvoir calculer le résultat :
+- soit avec les comptes de bilan --> actif-passif (classes 1 --> 5)
+- les comptes des comptes de résultats --> produits-charges (classes 7-6)
+
+

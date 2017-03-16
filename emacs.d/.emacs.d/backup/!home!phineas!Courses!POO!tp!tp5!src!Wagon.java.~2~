@@ -1,0 +1,16 @@
+public class Wagon{
+    public final int CAPACITE=20;
+    private int numero;
+    private ArrayList<Passager> lesPassagers;
+
+    public Wagon(int numero){
+	this.numero=numero;
+	lesPassagers=new ArrayList<Passager>()
+    }
+
+    public void ajouter(Passager lePassager){
+	lesPassager.add(lePassager);
+    }
+
+    
+}

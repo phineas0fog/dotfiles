@@ -1,0 +1,276 @@
+% Created 2017-02-27 lun. 21:38
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{Evrard Van Espen}
+\date{}
+\title{Cours POO n4}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\section{L'héritage}
+\label{sec-1}
+\subsection{UML}
+\label{sec-1-1}
+\includegraphics[width=.9\linewidth]{out.png}
+
+\begin{center}\includegraphics[scale=0.7]{out.png}\end{center}
+
+\subsection{Terminologie}
+\label{sec-1-2}
+\begin{itemize}
+\item L'héritage permet de reprendre des carac d'une classe \textbf{M}, la nouvelle classe fille \textbf{F}.
+\begin{itemize}
+\item \textbf{M} est la \emph{super classe} de \textbf{F}
+\item La classe \textbf{F} \emph{hérite} de la classe \textbf{M}
+\item La classe \textbf{F} est une \emph{sous classe} de \textbf{M}
+\end{itemize}
+\end{itemize}
+\subsection{Généralisation / spécialisation}
+\label{sec-1-3}
+La généralisation exprime une relation \emph{est-un} \emph{(is-a)} entre une classe et sa super classe.
+
+\begin{itemize}
+\item Utilisation de l'héritage
+\begin{itemize}
+\item dans le sens de \emph{spécialisation} pour \textbf{réutiliser}
+\item dans le sens de \emph{généralisation} pour \textbf{abstraire}
+\end{itemize}
+\item Pas de limitation dans le nombre de niveaux d'abstraction dans la hiérarchie
+\item Méthodes et attributs sont hérités au travers de tous les niveaux
+\end{itemize}
+\subsection{Héritage en JAVA}
+\label{sec-1-4}
+Mot clé \texttt{extends}
+
+\begin{minted}[]{java}
+class Derivee extends Base{
+...
+}
+\end{minted}
+
+\begin{itemize}
+\item Héritage simple: une classe ne peut dériver que \textbf{d'une et d'une seule} autre classe
+\item Hiérarchie d'héritage: arbre avec la classe \texttt{Object} comme racine
+\begin{itemize}
+\item toute classe autre que \texttt{Object} possède une super classe
+\end{itemize}
+\item Une classe déclarée \texttt{final} \uline{ne peut pas être dérivée}.
+\end{itemize}
+\subsection{La classe \texttt{Object}}
+\label{sec-1-5}
+\begin{minted}[]{java}
+public final Class<?> getClass() //renvoie la référence de l'objet représentant la classe
+public boolean equals(Object obj) //teste l'égalité entre les objets
+public int hashCode() //renvoie une clée de hachage relative à l'objet
+public String toString() //renvoie une chaîne de caractères représentant l'objet
+                         //par défaut renvoie (nomClasse+@+hashCodeEnHexa)
+\end{minted}
+\subsection{Contructeurs d'une classe dérivée}
+\label{sec-1-6}
+\begin{itemize}
+\item Les constructeurs ne sont pas hérités !
+\item Appel au contructeur de la classe de base: mot clé \texttt{super}
+\end{itemize}
+
+\begin{center}\includegraphics[scale=0.7]{out2.png}\end{center}
+
+\begin{minted}[]{java}
+public class Archer extends Guerrier{
+  private int porteeAttaque;
+
+  public Archer (String nom, int pdv, int portee){
+    super(nom, pdv);
+    porteeAttaque = portee;
+  }
+}
+\end{minted}
+
+\begin{itemize}
+\item \texttt{super(..)} doit être la \textbf{première} instruction du builder
+\end{itemize}
+\subsection{Surclassement}
+\label{sec-1-7}
+\begin{itemize}
+\item La réutilisation du code est un aspect important de l'héritage
+\item Un deuxième point fondamental est la relation qui relie une classe à sa super-classe
+\item Une classe \textbf{B} qui hérite de la classe \textbf{A} peut être vue comme un sous-type du type défini par la classe \textbf{A}
+\end{itemize}
+
+\begin{center}\includegraphics[scale=0.7]{out3.png}\end{center}
+
+Un \texttt{EtudiantSportif} \uline{est} un \texttt{Etudiant}.
+
+\begin{itemize}
+\item Tout objet instance de la classe \textbf{B} peut être vu comme un objet de la classe \textbf{A}
+\item À une référence délcarée de type \textbf{A} il est possible d'affecter une valeur qui ets une référence vers un objet de type \textbf{B}
+\begin{itemize}
+\item c'est ce qu'on appelle \textbf{surclassement} (ou \textbf{upcasting})
+\end{itemize}
+\item Lorqu'un objet est "surclassé", il est vu comme un objet du type de la référence utilisée pour le désigner
+\end{itemize}
+\subsection{Référence vers une classe dérivée en JAVA}
+\label{sec-1-8}
+\begin{itemize}
+\item Le surclassement est directement supporté en JAVA
+\end{itemize}
+
+\begin{minted}[]{java}
+Archer robin = new Archer("Robin des bois", 100, 22);
+\end{minted}
+
+\begin{itemize}
+\item Mais comme \texttt{Archer} dérive de \texttt{Guerrier} on peut faire
+\end{itemize}
+\begin{minted}[]{java}
+Guerrier robin = new Archer(...);
+\end{minted}
+\subsection{Redéfinition}
+\label{sec-1-9}
+\begin{itemize}
+\item Une sous-classe peut \emph{ajouter} des attributs ou des méthodes à ceux qu'elle hérite de sa super-classe
+\item Une sous-classe peut \textbf{redéfinir} \emph{(override)} les méthodes dont elle hérite
+\end{itemize}
+
+On dit qu'une classe/redéfinit/ une méthode lorsqu'elle définit une méthode de même signature que celle d'une méthode héritée
+\subsection{Mise au point sur la visibilité}
+\label{sec-1-10}
+
+\begin{center}
+\begin{tabular}{lllll}
+ & private & (package) & protected & public\\
+\hline
+classe elle meme & oui & oui & oui & oui\\
+classe même pckg & non & oui & oui & oui\\
+classe dérivée & non & oui & oui & oui\\
+classe autre pckg & non & oui & oui & oui\\
+\end{tabular}
+\end{center}
+
+\subsection{Masquage}
+\label{sec-1-11}
+Lorsqu'une classe dérivée définit une variable d'instance dont le nom est identique à l'une des variable dont elle hérite, la nouvelle définition \emph{masque} la définition héritée.
+
+\begin{minted}[]{java}
+public class Base{
+  protected int x=42;
+}
+public class Derivee extends Base{
+  protected double x=3.14;
+}
+public class EncoreDerivee extends Derivee{
+  protected char x='A';
+}
+\end{minted}
+
+\begin{itemize}
+\item Depuis \texttt{EncoreDerivee}
+\begin{itemize}
+\item x ou this.x vaut 'A'
+\item super.x vaut 3.14
+\end{itemize}
+\end{itemize}
+
+\subsection{Redéfinition des méthodes}
+\label{sec-1-12}
+\begin{itemize}
+\item Les méthodes d'instance de même signature ne sont pas masquées: elles sont redéfinies
+\item Attention à ne pas confindre \textbf{redéfinition} \emph{(overriding)} et \textbf{surcharge} \emph{(overloading)}
+\item utiliser \texttt{@Override} pour les redéfinitions (aide le compilo)
+\end{itemize}
+
+\begin{minted}[]{java}
+public class Base{
+  public void Foo(int i){}
+}
+public class Derivee1{
+  public Foo(float i){} //overload
+}
+public class Derivee2{
+  public Foo(int i){}   //override
+}
+\end{minted}
+
+Une méthode redéfinie peut appeller la méthode de la super classe avec le mot clé \texttt{super}
+\begin{minted}[]{java}
+public class Foo{
+  ...
+  void paint(){}
+}
+public class Bar extends Foo{
+  ...
+  void paint(){
+    super.paint();
+  }
+}
+\end{minted}
+
+\subsection{Lien dynamique}
+\label{sec-1-13}
+\subsubsection{Résolution des messages}
+\label{sec-1-13-1}
+Lorsqu'une methode d'un obj est accédée au travers d'une référence \emph{surclassée}, c'est la méthode telle qu'elle est définie au niveau de la classe effective de l'obj qui est en fait invoqauée et exécutée.
+
+\begin{itemize}
+\item Les messages sont résolus à l'exécution
+\begin{itemize}
+\item La méthode exécutée est déterminée lors de l'exécution et non à la compilation
+\end{itemize}
+\item Ce mécanisme est désigné sous le terme de \textbf{laison dynamique} \emph{(dynamic binding, late binding)}
+\end{itemize}
+
+\subsection{Règles de la redéfinition en JAVA}
+\label{sec-1-14}
+\begin{center}\includegraphics[scale=0.7]{out4.png}\end{center}
+
+\begin{enumerate}
+\item L'appel \texttt{b.faireUnTruc()} devra exécuter la méthode de la classe \texttt{Derivee}
+\item La visibilité de \texttt{faireUnTruc()} dans \texttt{Derivee} ne peut pas être plus restreinte que celle dans \texttt{Base}
+\item La méthode de \texttt{Derivee} doit avoir le même modificateur d'instance que celle de \texttt{Base}
+\item Même type de retour ou type dérivé
+\item La liste des exceptions vérifées lancées dans la méthode de \texttt{Derivee} ne peut être plus grand que celle déclarée dans la méthode de \texttt{Base}
+\end{enumerate}
+
+\subsubsection{Attention !}
+\label{sec-1-14-1}
+\begin{itemize}
+\item Les méthodes déclarées \texttt{final} \uline{ne peuvent pas être dérivées}
+\item Les méthodes \textbf{privées} et les méthodes de classe (\emph{static}) ne suivent pas les règles de la \textbf{redéfinition}, mais celles du \textbf{masquage}
+\item Les constructeurs ne peuvent pas être redéfinis
+\item Les règles de redéfinition ne s'applique que si \texttt{Base} est visible depuis \texttt{Derivee}
+\end{itemize}
+
+\subsection{Polymorphisme}
+\label{sec-1-15}
+C'est la caractéristique d'un élément qui peut prendre plusieurs formes.
+
+\subsection{Transtypage \emph{(cast)}}
+\label{sec-1-16}
+\begin{minted}[]{java}
+Guerrier robin = new Archer... //upcasting
+Archer batman = (Archer) robin; //downcasting
+\end{minted}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

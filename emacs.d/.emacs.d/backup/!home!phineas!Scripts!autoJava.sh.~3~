@@ -1,0 +1,115 @@
+#!/bin/env sh
+
+#COLORS
+
+
+function infoPWD(){
+    echo "-->INFO: position: " $(pwd);
+}
+
+echo "***** Interface d'automatisation JAVA *****";
+echo "**** Numéro ? ****";
+read num;
+mkdir tp$num;
+if [ -d ./tp$num ]; then echo "Créé !"; else echo "PROBLEME (projet) !"; exit 1; fi
+cd tp$num;
+
+infoPWD;
+
+echo "**** Ajouter des fichiers ? ****";
+read choix;
+case $choix in
+    1 )
+	while [ $choix == 1 ]
+	do
+	    echo "*** Entrer le nom du package ***"
+	    read nom;
+	    mkdir $nom;
+	    if [ -d ./$nom ]; then echo "Créé !"; else echo "PROBLEME (package) !"; exit 1; fi
+	    echo "*** Ajouter des classes ? (1-oui, 0-non) ***";
+	    read choix2;
+	    case $choix2 in
+		1 )
+		    cd $nom;
+		    infoPWD;
+		    while [ $choix2 == 1 ]
+		    do
+			echo "** Entrer nom de la classe **";
+			read nomClasse;
+			nomClasse="$(tr '[:lower:]' '[:upper:]' <<< ${nomClasse:0:1})${nomClasse:1}"
+			touch $nomClasse.java;
+			if [ -f ./$nomClasse.java ]; then echo "Créé !"; else echo "PROBLEME (classe)!"; exit 1; fi
+			echo "package "$nom";" > $nomClasse.java;
+			echo "" >> $nomClasse.java;
+			echo "** Visibilité ? (+,-,#,0(∅))"
+			read visi;
+			case $visi in
+			    + )
+				echo "public class "$nomClasse"{" >> $nomClasse.java;
+				;;
+			    - )
+				echo "private class "$nomClasse"{" >> $nomClasse.java;
+				;;
+			    \# )
+				echo "protected class "$nomClasse"{" >> $nomClasse.java;
+				;;
+			    0 )
+				echo "class "$nomClasse"{" >> $nomClasse.java;
+				;;
+			esac
+			echo "** Ajouter des attributs ? (1-oui, 0-non) **";
+			read choix3;
+			while [ $choix3 == 1 ]
+			do
+			    echo "* Entrer <type> <nom> de l'attribut *";
+			    read attribut;
+			    echo "** Visibilité ? (+,-,#,0(∅))"
+			    read visi;
+			    case $visi in
+				+ )
+				    echo "  public "$attribut";" >> $nomClasse.java;
+				    ;;
+				- )
+				    echo "  private "$attribut";" >> $nomClasse.java;
+				    ;;
+				\# )
+				    echo "  protected "$attribut";" >> $nomClasse.java;
+				    ;;
+				0 )
+				    echo "  "$attribut";" >> $nomClasse.java;
+				    ;;
+			    esac
+			    echo "" >> $nomClasse.java;
+
+			    #get type of attribute
+			    attributeType=$(echo $attribut | cut -d " " -f 1);
+			    attributeName=$(echo $attribut | cut -d " " -f 2);
+			    attributeName="$(tr '[:lower:]' '[:upper:]' <<< ${attributeName:0:1})${attributeName:1}"
+
+			    #generate getter
+			    echo "  public "$type"get"$attributeName"{" >> $nomClasse.java;
+			    echo "    return "$(echo $attribut | cut -d " " -f 2)";" >> $nomClasse.java;
+			    echo "  }" >> $nomClasse.java;
+
+			     attributeName="$(tr '[:upper:]' '[:lower:]' <<< ${attributeName:0:1})${attributeName:1}"
+
+			    echo "" >> $nomClasse.java;
+
+			    #generate setter
+			    echo "  public "$type"set"$attributeName"("$attributeType $attributeName"){" >> $nomClasse.java;
+			    echo "    this."$attributeName" = "$attributeName";" >> $nomClasse.java;
+			    echo "  }" >> $nomClasse.java;
+
+			    echo "* Ajouter d'autres attributs ? (1-oui, 0-non *)";
+			    read choix3;
+			done
+
+			echo "}" >> $nomClasse.java;
+			
+			echo "** Ajouter d'autres classes ? (0-oui, 1-non )**";
+			read choix2;
+		    done
+	    esac
+	done
+esac	
+

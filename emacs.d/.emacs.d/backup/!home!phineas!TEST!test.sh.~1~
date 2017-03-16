@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#sudo msi-keyboard -m normal -c left,orange,high -c middle,red,high -c right,orange,high -r touchpad,0,0,0 -r logo,0,0,0
+
+while [ 1=1 ]
+do
+
+    for (( i=0; i<255; i++))
+    do
+        msi-keyboard -m normal -r logo,$i,0,0
+    done
+    for (( i=255; i>0; i--))
+    do
+        msi-keyboard -m normal -r logo,$i,0,0
+    done
+    for (( i=0; i<255; i++))
+    do
+        msi-keyboard -m normal -r logo,0,$i,0
+    done
+    for (( i=255; i>0; i--))
+    do
+        msi-keyboard -m normal -r logo,0,$i,0
+    done
+    for (( i=0; i<255; i++))
+    do
+        msi-keyboard -m normal -r logo,0,0,$i
+    done
+    for (( i=255; i>0; i--))
+    do
+        msi-keyboard -m normal -r logo,0,0,$i
+    done
+
+done

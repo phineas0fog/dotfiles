@@ -1,0 +1,10 @@
+public calss Train{
+    private boolean roule;
+    private LinkedList
+
+    public Train(int nombreDeWagons){
+	
+    }
+
+    public void 
+}

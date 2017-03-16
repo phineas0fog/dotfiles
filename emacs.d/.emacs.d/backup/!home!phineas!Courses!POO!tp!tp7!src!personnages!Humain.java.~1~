@@ -1,0 +1,37 @@
+public class Humain{
+    private String nom;
+    private String boisson;
+
+    public Humain(String nom, String boisson){
+	this.nom	= nom;
+	this.boisson	= boisson;
+    }
+
+    public Humain(String nom){
+	this.nom = nom;
+    }
+
+    public String getNom(){
+	return nom;
+    }
+
+    public String getBoisson(){
+	return boisson;
+    }
+
+    public vois setBoisson(String boisson){
+	this.boisson = boisson;
+    }
+
+    public void parler(String texte){
+	System.out.println("("+nom+") ---"+texte);
+    }
+
+    public void sePresenter(){
+	this.parler("Je suis "+nom+", et j'aime le "+boisson+".");
+    }
+
+    public void boire(){
+	this.parler("Ah, un bon verre de "+boisson+" ! GLOUPS !");
+    }
+}

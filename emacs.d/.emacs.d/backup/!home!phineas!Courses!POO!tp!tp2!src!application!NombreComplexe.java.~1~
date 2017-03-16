@@ -1,0 +1,6 @@
+package application;
+
+public class NombreComplexe{
+    float partieReelle;
+    float partieImaginaire;
+}

@@ -1,0 +1,19 @@
+
+   commandes ZSH :
+       sudo
+           ESC x 2                 ajoute "sudo" au début de la commande
+           ESC + h                 affiche la man de la commande
+           ESC + q                 met la commande en buffer et la remet après
+
+       wd
+           wd add <nom>            ajoute un warp
+           wd list                 liste les warps créés
+           wd <nom>                warp au point donné
+
+   divers :
+       myman                       pacman en terminal (jeu)
+       ranger                      gestionnaire de fichiers en terminal
+       vtop                        moniteur système
+       lolcat                      truc kikoo pour mettre plein de couleurs
+                                   (voir lolcat -h)
+       ~/Softs/spock               chifoumi

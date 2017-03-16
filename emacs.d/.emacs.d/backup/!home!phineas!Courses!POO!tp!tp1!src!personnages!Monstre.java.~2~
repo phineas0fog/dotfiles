@@ -1,0 +1,23 @@
+package personnages;
+
+public class Monstre {
+    String nom;
+    int nbPtsVie;
+    int force;
+
+    public Monstre(String nom, int nbPtsVie, int force) {
+	this.nom=nom;
+	this.nbPtsVie=nbPtsVie;
+	this.force=force;
+    }
+
+    public Monstre(String nom) {
+	this.nom=nom;
+	nbPtsVie=10;
+	force=1;
+    }
+
+    public void parler(String message){
+	System.out.println("--"+nom+"-- "+message);
+    }
+}

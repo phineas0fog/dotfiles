@@ -1,0 +1,31 @@
+#+LATEX: \title{Test Ogmode}
+#+LATEX_HEADER: \usepackage[a4paper]{geometry}
+#+LATEX_HEADER: \geometry{hscale=0.85,vscale=0.85,centering}
+#+OPTIONS: toc:nil date:nil
+#+LaTeX_HEADER: \usemintedstyle{emacs}
+
+* test code source c
+#+BEGIN_SRC C
+printf("Hello World !");
+#+END_Src
+
+* test UML
+
+#+begin_src plantuml :file tryout.png
+  Alice -> Bob: synchronous call
+  Alice ->> Bob: asynchronous call
+#+end_src
+#+latex:\includegraphics[width=.5\linewidth]{tryout.png}
+* test maths
+
+     $x=\sqrt{b}$
+
+* test tableur
+| Étudiant | Maths | Physique | Moyenne |
+|----------+-------+----------+---------|
+| Betrand  |    13 |       13 |      13 |
+| henri    |    15 |       14 |    14.5 |
+| Arnold   |    17 |       13 |      15 |
+#+TBLFM: $4=vmean($2..$3)
+
+

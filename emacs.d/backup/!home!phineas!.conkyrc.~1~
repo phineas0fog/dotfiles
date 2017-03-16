@@ -1,0 +1,37 @@
+own_window yes
+update_interval 1
+double_buffer yes
+
+TEXT
+
+TIME
+${time %H:%M}
+
+UP
+$uptime_short
+
+
+
+RAM - $memperc%
+free: $memfree   
+used: $mem
+$membar
+
+CPU - ${cpu 0}%
+$acpitemp C
+$cpubar
+
+$cpugraph
+
+NET
+$downspeedf
+$downspeedgraph
+
+$upspeedf
+$upspeedgraph
+
+MPD
+$mpd_title
+$mpd_artist
+$mpd_bar
+$mpd_elapsed / $mpd_length

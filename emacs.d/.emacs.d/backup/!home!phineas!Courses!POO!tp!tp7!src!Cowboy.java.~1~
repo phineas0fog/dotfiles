@@ -1,0 +1,3 @@
+public class Cowboy extends Humain{
+    private int popularite = 0;
+}

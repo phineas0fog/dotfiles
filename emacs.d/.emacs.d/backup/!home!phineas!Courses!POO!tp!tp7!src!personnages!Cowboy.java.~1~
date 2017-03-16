@@ -1,0 +1,23 @@
+public class Cowboy extends Humain{
+    private int popularite  = 0;
+    private String attitude = "vaillant";
+
+    public Cowboy(String nom, String boisson, String attitude){
+	super(nom, boisson);
+	this.attitude = attitude;
+    }
+
+    public Cowboy(String nom){
+	super(nom);
+    }
+
+    public void liberer(Dame dame){
+	super.parler("Je viens vous sauvez, belle damoiselle !");
+	dame.seFaireLiberer(this);
+    }
+
+    public void tirerSur(Brigand brigand){
+	System.out.println("Le "+attitude+" "+nom+" tire sur "+brigrand.getNom()". PAN !");
+	super.parler("Prend ça, rascal !");
+    }
+}

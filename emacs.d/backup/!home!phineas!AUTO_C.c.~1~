@@ -1,0 +1,123 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main()
+{
+	char nomTp[50];
+	char nomFichierET[20]="header";
+	char nomFichierFunc[20]="func";
+	char nomFichierMain[20]="main";
+	char nomProjet[50]="";
+	char description[500]="";
+	char finalite[50]="";
+	char auteur[20]="Evrard Van Espen";
+  char nomProjetF[50]="";
+	char descriptionF[500]="";
+	char finaliteF[50]="";
+	char auteurF[20]="";
+	char biblio[200]="#include <stdio.h>\n";
+	int choix;
+
+
+	printf("Entrer le nom du tp ?\n");
+	fgets(nomTp, 50, stdin);
+	nomTp[strlen(nomTp)-1]='\0';
+
+	printf("Entrer le nom du projet: \n");
+	fgets(nomProjet, 20, stdin);
+	nomProjet[strlen(nomProjet)-1]='\0';
+
+    printf("Entrer la description :\n");
+    fgets(description, 500, stdin);
+    description[strlen(description)-1]='\0';
+
+    printf("Entrer la finalité :\n");
+    fgets(finalite, 50, stdin);
+    finalite[strlen(finalite)-1]='\0';
+
+	strcat(nomFichierET, nomTp);
+	strcat(nomFichierET, ".h");
+	strcat(nomFichierFunc, nomTp);
+	strcat(nomFichierFunc, ".c");
+	strcat(nomFichierMain, nomTp);
+	strcat(nomFichierMain, ".c");
+
+	strcat(auteurF, "/*     AUTEUR: ");
+	strcat(auteurF, auteur);
+	strcat(auteurF, "     */");
+
+	strcat(nomProjetF, "/*     NOM: ");
+	strcat(nomProjetF, nomProjet);
+	strcat(nomProjetF, "     */");
+
+	strcat(descriptionF, "/*     DESCRIPTION: ");
+	strcat(descriptionF, description);
+	strcat(descriptionF, "     */");
+
+	strcat(finaliteF, "/*     FINALITE: ");
+	strcat(finaliteF, finalite);
+	strcat(finaliteF, "     */");
+
+	fflush(stdin);
+
+    printf("Inclure des bibliothèques ?(0/1)\n");
+ 	scanf("%d", &choix);
+	if(choix==1)                       ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	{
+        printf("Inclure <math.h> ?(0/1)\n");
+		scanf("%d", &choix);
+		if(choix==1)
+			strcat(biblio, "#include <math.h>\n");
+
+		printf("Include <stdlib.h> ?(0/1)\n");
+		scanf("%d", &choix);
+		if(choix==1)
+			strcat(biblio, "#include <stdlib.h>\n");
+
+		printf("Inclure <string.h> ?(0/1)\n");
+		scanf("%d", &choix);
+		if(choix==1)
+			strcat(biblio, "#include <string.h>\n");
+	}
+	printf("Création des fichiers...\n");
+
+	FILE* fichierHead=NULL;
+	FILE* fichierFunc=NULL;
+	FILE* fichierMain=NULL;
+
+	fichierHead = fopen(nomFichierET, "a");
+	fichierFunc=fopen(nomFichierFunc, "a");
+	fichierMain=fopen(nomFichierMain, "a");
+
+	printf("Ecriture dans les fichiers...\n");
+
+	fprintf(fichierHead, "%s\n", auteurF);
+	fprintf(fichierHead, "%s\n", nomProjetF);
+	fprintf(fichierHead, "%s\n", descriptionF);
+	fprintf(fichierHead, "%s\n", finaliteF);
+
+	fprintf(fichierFunc, "#include \"%s\"\n", nomFichierET);
+	fprintf(fichierMain, "#include \"%s\"\n", nomFichierET);
+
+	fprintf(fichierMain, "\n\nint main()\n{\n\n\treturn 0;\n}");
+
+	if(choix==1)
+	{
+		fprintf(fichierHead, "%s\n", biblio);
+	}
+	else if(choix==0)
+		fprintf(fichierHead, "#include <stdio.h>\n");
+
+
+	fclose(fichierHead);
+	fclose(fichierFunc);
+	fclose(fichierMain);
+
+	printf("Fichiers créés:\n");
+	printf("- %s\n", nomFichierET);
+	printf("- %s\n", nomFichierFunc);
+	printf("- %s\n", nomFichierMain);
+
+	return 0;
+}

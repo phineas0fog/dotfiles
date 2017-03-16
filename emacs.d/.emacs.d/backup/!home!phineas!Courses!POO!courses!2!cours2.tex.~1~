@@ -1,0 +1,75 @@
+% Created 2017-02-06 lun. 13:50
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{Evrard Van Espen}
+\date{}
+\title{Cours POO n°2}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\section{Encapsulation}
+\label{sec-1}
+Probleme : besoin de modéliser un point en 2D
+\begin{itemize}
+\item Cahier des charges :
+\begin{itemize}
+\item coordonnées cartésiennes
+\item je veux pouvoir calculer la distance à l'origine
+\end{itemize}
+\end{itemize}
+
+\begin{minted}[]{plantuml:}
+Point2D : x double
+Point2D : y double
+Point2D : distanceOrigine()
+\end{minted}
+\includegraphics[scale=0.2]{out.png}
+
+\begin{minted}[]{java}
+class Point2D {
+  double x, y;
+
+  Point2D(double x, double y){
+    this.x=x;
+    this.y=y;
+  }
+
+  double distanceOrigine(){
+    Maths.sqrt(x*x+y*y);
+  }
+}
+\end{minted}
+
+\begin{itemize}
+\item Cahier des charges du collèque :
+\begin{itemize}
+\item utiliser ma classe \emph{Point2D}
+\item créer un segment entre deux \emph{Point2D}
+\item calculer la longueur de son segment
+\end{itemize}
+\end{itemize}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

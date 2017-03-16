@@ -1,0 +1,679 @@
+#+TITLE: Configuration Emacs
+#+AUTHOR: Louis Turpinat / Evrard Van Espen
+
+* Basic settings
+** Starting
+#+BEGIN_SRC emacs-lisp
+(require 'cl) ;; common-lisp dep. for packages & emacs advanced features
+(defvar my-start-time (current-time)
+  "Time when Emacs was started")
+#+END_SRC
+** Package manager
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(package-initialize)
+
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives 
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+             '("org" . "http://orgmode.org/elpa/") t)
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(defvar packages
+  '(
+  ace-jump-mode
+  anzu
+  beacon
+  bm
+  
+  company
+  company-c-headers
+  company-irony
+  company-quickhelp
+  company-statistics
+
+  calfw
+  csharp-mode
+  dash-at-point
+  direx
+  expand-region
+  focus
+
+  flycheck
+  flycheck-irony
+
+  fix-word
+  golden-ratio
+
+  helm
+  helm-swoop 
+  helm-flx
+  helm-fuzzier
+  helm-dash
+  helm-ls-git
+  helm-smex
+  
+  highlight
+  highlight-numbers
+  htmlize
+  hlinum
+  iedit
+
+  latex-extra
+  latex-math-preview
+  latex-unicode-math-mode  
+  minimap
+  markdown-mode
+  magit
+  multiple-cursors
+  ox-reveal
+  org-bullets
+  pdf-tools
+  python-mode
+  popwin
+  pos-tip
+  rainbow-delimiters
+  spotify
+  smex
+  smartparens
+  slime
+  slime-company
+  syslog-mode
+  spaceline
+  wc-mode
+  web-mode
+  wttrin
+  window-numbering
+  which-key
+  yaml-mode
+  yasnippet  
+  
+  ;; themes
+  solarized-theme
+  zenburn-theme
+  blackboard-theme
+   )
+)
+
+(dolist (p packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
+
+;;(package-refresh-contents)
+#+END_SRC
+** Who am I
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Evrard Van Espen")
+#+END_SRC
+** Global settings
+#+BEGIN_SRC emacs-lisp
+(setq inhibit-startup-screen t) ;; disable emacs startup screen
+
+(defalias 'yes-or-no-p 'y-or-n-p) ;; emacs asks "y or n" instead of "yes or no"
+
+;; removing some ugly GUI components
+(tool-bar-mode -1)
+(scroll-bar-mode -1) 
+(menu-bar-mode -1) 
+(fset 'menu-bar-open nil) ;; Disable right-click pop-up menu
+
+;; font
+(set-face-attribute 'default nil
+                    :family "DejaVu Sans Mono"
+                    :height 120
+                    :weight 'normal
+                    :width 'normal)
+
+(load-theme 'blackboard t) ;; set theme
+
+;; modeline
+(line-number-mode 1)
+(column-number-mode 1)
+
+(display-time) ;; display time
+
+(setq display-time-default-load-average nil) ;; remove system load average (which is usually by the time display)
+(setq battery-mode-line-format " [%p]") ;; set battery display format (in percentage)
+
+(setq auto-save-interval 20) ;; save buffer every 20 characters typed
+
+(delete-selection-mode t) ;; enable text overwriting (selected text is removed when a key is pressed)
+
+(setq dired-listing-switches "-alh") ;; ls args for dired (hidden files & folders, listed with human readable units)
+
+(setq scroll-preserve-screen-position 1) ;; keep cursor at same position when scrolling
+
+(when (string= system-name "atlas")
+  (display-battery-mode)) ;; display battery percentage (only on my laptop named "atlas")
+
+(setq explicit-shell-file-name "/bin/zsh") ;; set zsh terminal emulator by default
+
+;; turn off the blinking cursor
+(blink-cursor-mode -1)
+
+;; disable tips
+(tooltip-mode 0) ;; disable pop-up
+(setq show-help-function nil) ;; disable mini-buffer tips
+
+(when window-system (set-frame-size (selected-frame) 87 42)) ;; set default size in order to prevent spaceline from shrinking
+
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+  backup-by-copying t    ; Don't delink hardlinks
+  version-control t      ; Use version numbers on backups
+  delete-old-versions t  ; Automatically delete excess backups
+  kept-new-versions 20   ; how many of the newest versions to keep
+  kept-old-versions 5    ; and how many of the old
+  )
+
+(define-key read-expression-map [(tab)] 'hippie-expand) ;; "enable tab completion in the `eval-expression` minibuffer, I just bind the tab key to `hippie-expand` in the `read-expression-map`"
+
+(setq tab-width 2) ;; set default indentation to two spaces
+
+;; highlights common programming keywords like "FIX" or "TODO" (add ":" at the end the world)
+(defun font-lock-comment-annotations ()
+  (font-lock-add-keywords
+   nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|OPTIMIZE\\|HACK\\|REFACTOR\\):"
+          1 font-lock-warning-face t))))
+
+(add-hook 'prog-mode-hook 'font-lock-comment-annotations)
+
+(setq info-header-line nil)
+(setq info-use-header-line nil) 
+
+;; set default compilation command
+(setq compile-command "gcc *.c -o programme")
+
+;; set default environment for gdb interface
+(setq
+ ;; use gdb-many-windows by default
+ gdb-many-windows t
+ ;; Non-nil means display source file containing the main routine at startup
+ gdb-show-main t)
+#+END_SRC
+* Packages
+** ace-jump-mode
+#+BEGIN_SRC emacs-lisp
+(require 'ace-jump-mode)
+(global-set-key (kbd "C-c a") 'ace-jump-mode)
+#+END_SRC
+** helm
+*** basics
+Some of the following code came from [[https://github.com/compunaut/helm-ido-like-guide][compunaut]]
+#+BEGIN_SRC emacs-lisp
+(require 'helm-config)
+
+(helm-mode 1)
+(helm-flx-mode 1)
+(helm-fuzzier-mode 1)
+
+(global-set-key [remap execute-extended-command] #'helm-smex)
+(global-set-key (kbd "s-x") #'helm-smex-major-mode-commands)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x f") 'helm-find)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-c s") 'helm-swoop)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ;; (eg. open folders)
+#+END_SRC
+*** searching
+#+BEGIN_SRC emacs-lisp
+;; improve searching
+(setq helm-M-x-fuzzy-match                  t
+      helm-bookmark-show-location           t
+      helm-buffers-fuzzy-matching           t
+      helm-completion-in-region-fuzzy-match t
+      helm-file-cache-fuzzy-match           t
+      helm-imenu-fuzzy-match                t
+      helm-mode-fuzzy-match                 t
+      helm-locate-fuzzy-match               t 
+      helm-quick-update                     t
+      helm-recentf-fuzzy-match              t
+      helm-semantic-fuzzy-match             t)
+#+END_SRC
+*** file navigation
+#+BEGIN_SRC emacs-lisp
+(defun helm-ido-like-find-files-up-one-level-maybe ()
+  (interactive)
+  (if (looking-back "/" 1)
+      (call-interactively 'helm-find-files-up-one-level)
+    (delete-char -1)))
+
+
+(defun helm-ido-like-find-files-navigate-forward (orig-fun &rest args)
+  "Adjust how helm-execute-persistent actions behaves, depending on context."
+  (let ((sel (helm-get-selection)))
+    (if (file-directory-p sel)
+        ;; the current dir needs to work to
+        ;; be able to select directories if needed
+        (cond ((and (stringp sel)
+                    (string-match "\\.\\'" (helm-get-selection)))
+               (helm-maybe-exit-minibuffer))
+              (t
+               (apply orig-fun args)))
+      (helm-maybe-exit-minibuffer))))
+
+
+(defun helm-ido-like-load-file-nav ()
+  (advice-add 'helm-execute-persistent-action :around #'helm-ido-like-find-files-navigate-forward)
+    ;; <return> is not bound in helm-map by default
+  (define-key helm-map (kbd "<return>") 'helm-maybe-exit-minibuffer)
+  (with-eval-after-load 'helm-files
+    (define-key helm-read-file-map (kbd "<backspace>") 'helm-ido-like-find-files-up-one-level-maybe)
+    (define-key helm-read-file-map (kbd "DEL") 'helm-ido-like-find-files-up-one-level-maybe)
+    (define-key helm-find-files-map (kbd "<backspace>") 'helm-ido-like-find-files-up-one-level-maybe)
+    (define-key helm-find-files-map (kbd "DEL") 'helm-ido-like-find-files-up-one-level-maybe)
+
+    (define-key helm-find-files-map (kbd "<return>") 'helm-execute-persistent-action)
+    (define-key helm-read-file-map (kbd "<return>") 'helm-execute-persistent-action)
+    (define-key helm-find-files-map (kbd "RET") 'helm-execute-persistent-action)
+    (define-key helm-read-file-map (kbd "RET") 'helm-execute-persistent-action)))
+
+(helm-ido-like-load-file-nav)
+#+END_SRC
+*** appearance
+#+BEGIN_SRC emacs-lisp
+(defun helm-ido-like-load-ido-like-bottom-buffer ()
+  ;; popup helm-buffer at the bottom
+  (setq helm-split-window-in-side-p t)
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*helm.*\\*\\'"
+                 (display-buffer-in-side-window)
+                 (window-height . 0.4)))
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*helm help\\*\\'"
+                 (display-buffer-pop-up-window)))
+
+  ;; same for helm swoop
+  (setq helm-swoop-split-with-multiple-windows nil
+      helm-swoop-split-direction 'split-window-vertically
+      helm-swoop-split-window-function 'helm-default-display-buffer)
+  ;; dont display the header line
+  (setq helm-display-header-line nil)
+  ;; input in header line
+  (setq helm-echo-input-in-header-line t)
+  (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe))
+  
+  (helm-ido-like-load-ido-like-bottom-buffer)
+#+END_SRC
+*** helm-dash
+#+BEGIN_SRC emacs-lisp
+;; (setq helm-dash-browser-func 'eww) ;; When using helm-dash, open "eww" to read doc
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "/usr/bin/firefox")
+(setq helm-dash-browser-func 'browse-url-generic)
+
+(global-set-key (kbd "C-c d") 'helm-dash)
+(global-set-key (kbd "C-c D") 'helm-dash-activate-docset)
+#+END_SRC
+** smex
+#+BEGIN_SRC emacs-lisp
+(require 'smex)
+(smex-initialize)
+(require 'helm-smex)
+(global-set-key [remap execute-extended-command] #'helm-smex)
+#+END_SRC
+** magit
+#+BEGIN_SRC emacs-lisp
+(require 'magit)
+(global-set-key (kbd "C-c g") 'magit-status)
+#+END_SRC
+** wttrin
+#+BEGIN_SRC emacs-lisp
+(setq wttrin-default-cities '("Clermont-Ferrand"))
+#+END_SRC
+** org-mode
+#+BEGIN_SRC emacs-lisp
+(require 'latex-math-preview)
+(require 'latex-unicode-math-mode)
+
+(setq org-startup-indented t) ;; Enable by default "org-indent-mode"
+
+;; Set calandar with french names
+(setq calendar-week-start-day 1
+      calendar-day-name-array ["Dimanche" "Lundi" "Mardi" "Mercredi"
+                               "Jeudi" "Vendredi" "Samedi"]
+      calendar-month-name-array ["Janvier" "Février" "Mars" "Avril" "Mai"
+                                 "Juin" "Juillet" "Août" "Septembre"
+                                 "Octobre" "Novembre" "Décembre"])
+
+(setq european-calendar-style t) ;; Set date format "dd/mm/yy" in general and for org-mode
+
+(setq calendar-week-start-day 1) ;; Week start with Monday
+
+;; In order to export latex with syntaxical coloration for code blocks, minted (latex package)
+;; and Pygments (python syntax highlighter) need to be installed. (for pygments : pip install Pygments)
+;; @THANKS (http://joat-programmer.blogspot.fr/2013/07/org-mode-version-8-and-pdf-export-with.html)
+
+;; Include the latex-exporter
+(require 'ox-latex)
+;; Add minted to the defaults packages to include when exporting.
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+;; Tell the latex export to use the minted package for source
+;; code coloration.
+(setq org-latex-listings 'minted)
+;; Let the exporter use the -shell-escape option to let latex
+;; execute external programs.
+(setq org-latex-pdf-process
+      '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+;; org-bullets (show bullets as UTF-8 characters)
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+(setq org-src-fontify-natively t) ;; syntaxical coloration for sources block
+
+(setq org-latex-create-formula-image-program 'imagemagick) ;; generate latex formulas with imagemagick
+#+END_SRC
+** ispell
+#+BEGIN_SRC emacs-lisp
+(setq ispell-dictionary "francais") ;; Set ispell to french
+       (setq sgml-mode-hook
+      '(lambda () "Défauts pour le mode SGML."
+      (setq ispell-personal-dictionary "~/.ispellPerso")
+      (ispell-change-dictionary "francais")
+       ))
+#+END_SRC
+** direx
+#+BEGIN_SRC emacs-lisp
+(require 'popwin)
+(require 'direx)
+(push '(direx:direx-mode :position left :width 25 :dedicated t)
+      popwin:special-display-config)
+
+(global-set-key (kbd "C-c t") 'direx:jump-to-directory-other-window)
+#+END_SRC
+** linum and hlinum
+#+BEGIN_SRC emacs-lisp
+(require 'hlinum)
+(hlinum-activate) ;; highlights current line
+(add-hook 'prog-mode-hook 'linum-mode) ;; enable linum-mode in prog-mode
+#+END_SRC
+** highlight-numbers
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'highlight-numbers-mode)
+#+END_SRC
+** yasnippet
+#+BEGIN_SRC emacs-lisp
+(require 'yasnippet)
+;;(yas-global-mode 1) ;; enable yasnippet globally
+;;(add-to-list 'yas-snippet-dirs
+;;             "~/.emacs.d/private/snippets/") ;; Add a directory of snippets to yasnippet
+(yas/reload-all) ;; Reload all ; it's needed to make yas-minor-mode works (to get the loaded snippets)
+(global-set-key (kbd "C-c y") 'yas-minor-mode)
+#+END_SRC
+** syslog-mode
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.log\\'" . syslog-mode)) ;; enable syslog-mode for file with ".log" extension
+#+END_SRC
+** expand-region
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c v") 'er/expand-region)
+#+END_SRC
+** iedit-mode
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c ;") 'iedit-mode)
+#+END_SRC
+** fix-word
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-u") #'fix-word-upcase)
+(global-set-key (kbd "M-l") #'fix-word-downcase)
+(global-set-key (kbd "M-c") #'fix-word-capitalize)
+#+END_SRC
+** bookmark
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-²") 'bm-toggle)
+(global-set-key (kbd "²") 'bm-next)
+(global-set-key (kbd "s-²") 'bm-previous)
+#+END_SRC
+** anzu
+#+BEGIN_SRC emacs-lisp
+(require 'anzu)
+(global-anzu-mode t)
+;;(anzu-cons-mode-line-p nil)
+#+END_SRC
+** spaceline
+#+BEGIN_SRC emacs-lisp
+(require 'spaceline-config)
+(spaceline-spacemacs-theme)
+(spaceline-helm-mode)
+
+(require 'window-numbering)
+(defun window-numbering-install-mode-line (&optional position)
+  "Do nothing.")
+
+(spaceline-toggle-minor-modes-off) ;; hide minor-modes in bar
+(window-numbering-mode) ;; display windows number
+(spaceline-toggle-anzu) ;; when searching, display the number of matching results
+#+END_SRC
+** irony
+#+BEGIN_SRC emacs-lisp
+(require 'irony)
+
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+
+(defun my-irony-mode-hook ()
+  (define-key irony-mode-map [remap completion-at-point]
+    'irony-completion-at-point-async)
+  (define-key irony-mode-map [remap complete-symbol]
+    'irony-completion-at-point-async))
+
+(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+#+END_SRC
+** slime
+#+BEGIN_SRC emacs-lisp
+(require 'slime)
+
+;;In order to install sbcl properly : http://www.sbcl.org/getting.html
+(setq inferior-lisp-program "/usr/local/bin/sbcl")
+(setq slime-contribs '(slime-fancy))
+#+END_SRC
+** company
+*** settings & backends
+#+BEGIN_SRC emacs-lisp
+(require 'company)
+(require 'pos-tip)
+(require 'company-c-headers)
+(require 'company-irony)
+(require 'company-statistics)
+(require 'company-quickhelp)
+(require 'slime-company)
+
+(global-company-mode t)
+(company-quickhelp-mode 1)
+
+(setq company-backends (delete 'company-semantic company-backends))
+
+(setq company-backends
+      '(company-c-headers
+        company-irony
+        ))
+
+(slime-setup '(slime-fancy slime-company))
+
+(setq tab-always-indent 'complete)  ;; use 't when company is disabled
+(add-to-list 'completion-styles 'initials t)
+
+;; Stop completion-at-point from popping up completion buffers so eagerly
+(setq completion-cycle-threshold 5)
+
+
+(eval-after-load 'company
+  '(progn
+     (define-key company-active-map (kbd "RET") nil)
+     (setq company-idle-delay 0.125
+           company-minimum-prefix-length 1
+           company-require-match nil
+           company-transformers '(company-sort-by-occurrence)
+           company-dabbrev-ignore-case nil
+           company-dabbrev-downcase nil
+           company-frontends '(company-pseudo-tooltip-unless-just-one-frontend
+                               company-preview-frontend
+                               company-echo-metadata-frontend))))
+
+
+(add-hook 'after-init-hook 'company-statistics-mode)
+(setq company-tooltip-limit 20)                      ; bigger popup window
+(setq company-tooltip-align-annotations 't)          ; align annotations to the right tooltip border
+(setq company-idle-delay 0.3)                        ; decrease delay before autocompletion popup shows
+(global-set-key (kbd "C-c /") 'company-files)        ; Force complete file names on "C-c /" key
+(eval-after-load 'company
+  '(define-key company-active-map (kbd "M-h") #'company-quickhelp-manual-begin))
+
+(define-key company-active-map (kbd "\C-n") 'company-select-next)
+(define-key company-active-map (kbd "\C-p") 'company-select-previous)
+(define-key company-active-map (kbd "\C-d") 'company-show-doc-buffer)
+(define-key company-active-map (kbd "M-.") 'company-show-location)
+#+END_SRC
+*** fix for yasnisppet
+#+BEGIN_SRC emacs-lisp
+;; Add yasnippet support for all company backends
+;; https://github.com/syl20bnr/spacemacs/pull/179
+(defvar company-mode/enable-yas t
+  "Enable yasnippet for all backends.")
+
+(defun company-mode/backend-with-yas (backend)
+  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+#+END_SRC
+** flycheck
+#+BEGIN_SRC emacs-lisp
+(require 'flycheck)
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+(add-to-list 'flycheck-disabled-checkers 'c/c++-clang)
+#+END_SRC
+** semantic
+#+BEGIN_SRC emacs-lisp
+(require 'cc-mode)
+(require 'semantic)
+
+(global-semantic-idle-summary-mode 1) ;; display function's prototype in minibuffer
+#+END_SRC
+** rainbow-delimiters
+#+BEGIN_SRC emacs-lisp
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+#+END_SRC
+** smartparens
+#+BEGIN_SRC emacs-lisp
+(require 'smartparens)
+(show-smartparens-global-mode +1) ;; globally highlight paired brackets/embraces
+(add-hook 'prog-mode-hook 'smartparens-mode) ;; automatically add paired brackets/embraces
+#+END_SRC
+** pdf-tools
+#+BEGIN_SRC emacs-lisp
+(pdf-tools-install)
+#+END_SRC
+** which-key
+#+BEGIN_SRC emacs-lisp
+(require 'which-key)
+(which-key-mode)
+(setq which-key-idle-delay 0.4)
+#+END_SRC
+** golden-ratio
+#+BEGIN_SRC emacs-lisp
+(require 'golden-ratio)
+(golden-ratio-mode 1)
+#+END_SRC
+** wolfram
+#+BEGIN_SRC emacs-lisp
+(require 'wolfram)
+(setq wolfram-alpha-app-id "HEG6YT-R98EERETE2")
+#+END_SRC
+** powerline
+#+BEGIN_SRC emacs-lisp
+;(require 'powerline)
+;(powerline-default-theme)
+#+END_SRC
+** plantuml
+#+BEGIN_SRC emacs-lisp
+;; active Org-babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(;; other Babel languages
+   (plantuml . t)))
+
+(setq org-plantuml-jar-path
+      (expand-file-name "~/.plantuml/plantuml.jar"))
+#+END_SRC
+* Elisp
+Load external elisp files :
+#+BEGIN_SRC emacs-lisp
+ (load-file "~/.emacs.d/elisp/QuickC.el")
+#+END_SRC
+* Global shortcuts
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c m c") 'set-rectangular-region-anchor) ;; Create a rectangular region (multiple-cursors)
+(global-set-key (kbd "C-c m x") 'mc/mark-next-like-this) ;; Select next occurrence of the primary selected region
+(global-set-key (kbd "C-c m w") 'mc/mark-all-like-this) ;; Same thing but everywhere in the buffer
+
+;; go to beginning/end of buffer
+(global-set-key (kbd "C-<") 'end-of-buffer)
+(global-set-key (kbd "M-<") 'beginning-of-buffer)
+
+;; search and replace
+(global-set-key (kbd "C-c ù") 'query-replace)
+(global-set-key (kbd "C-c C-ù") 'query-replace-regexp)
+
+;;scroll window up/down by one line
+(global-set-key (kbd "M-n") (kbd "C-u 1 C-v"))
+(global-set-key (kbd "M-p") (kbd "C-u 1 M-v"))
+
+;; kill-buffer & kill-this-buffer remapping
+(global-set-key (kbd "C-x C-k") 'kill-buffer)
+;;(global-set-key (kbd "C-x k") 'kill-this-buffer)
+
+(defun kill-current-buffer ()
+    (interactive)
+    (kill-buffer (current-buffer)))
+
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
+
+;; quick calculation
+(global-set-key (kbd "C-c c") 'quick-calc)
+
+;; ansi-term
+(global-set-key (kbd "C-c m a") 'ansi-term)
+
+;; read-only mode
+(global-set-key (kbd "C-x C-g") 'read-only-mode)
+
+;; start compilation without re-asking compilation command
+(global-set-key (kbd "<f5>") (lambda ()
+                               (interactive)
+                               (setq-local compilation-read-command nil)
+                               (call-interactively 'compile)))
+#+END_SRC
+* Finish
+#+BEGIN_SRC emacs-lisp
+;; display the time needed by emacs to start
+(message "Start up time %.2fs" (float-time (time-subtract (current-time) my-start-time)))
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t)
+#+END_SRC
+* Perso
+#+BEGIN_SRC emacs-lisp
+ (load-file "~/.persoEmacs.el")
+(require 'color-theme-sanityinc-tomorrow)
+#+END_SRC
+
+Export to ODT
+#+BEGIN_SRC emacs-lisp
+(require 'ox-odt)
+#+END_SRC

@@ -1,0 +1,42 @@
+public class Dame extends Humain{
+    private String couleurRobe;
+    private boolean captive = false;
+
+    public Dame(Strind nom, String boisson, String couleurRobe){
+	super(nom, boisson);
+	this.courleurRobe=couleurRobe;
+    }
+
+    public Dame(String nom){
+	super(nom);
+    }
+
+    public String getCouleurRobe(){
+	return couleurRobe;
+    }
+
+    public void setCouleurRobe(String couleur){
+	super.parler("Oh regardez ma nouvelle robe "+couleurRobe+" de chez tati !");
+	couleurRobe = couleur;
+    }
+
+    public boolean isCaptive(){
+	return captive;
+    }
+
+    void seFaireKidnapper(Brigand brigand){
+	captive = true;
+	super.parler("AAAAAAAAAAHHHHHH");
+    }
+
+    void seFaireLiberer(Cowboy cowboy) throws Exception{
+	if(!isCaptive){
+		super.parler("Oh mon sauveur !");
+		captive = false;
+	}
+	else{
+	    super.parler("Je suis déjà libre x)")
+	    throw new IllegalStateException();
+	}
+    }
+}

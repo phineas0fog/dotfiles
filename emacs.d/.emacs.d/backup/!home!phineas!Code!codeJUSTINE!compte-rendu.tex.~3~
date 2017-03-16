@@ -1,0 +1,159 @@
+% Created 2017-01-23 lun. 15:24
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{Justine Bachelard, Léo Malleret}
+\date{}
+\title{Compte rendu projet de C}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+
+\section{Fontionnalités}
+\label{sec-1}
+\subsubsection{Adhérents}
+\label{sec-1-0-1}
+Concernant les adhérents, il est possible de tous les lister, ou de filtrer l'affichage selon s'ils ont des retards de renouvelement de leur adhésion et, 
+le cas échéant, de la renouveler.
+Il est également possible d'enregistrer de nouveaux adhérents, d'en supprimer, ou d'afficher des informations les concernant. 
+
+\subsubsection{Jeux}
+\label{sec-1-0-2}
+Quant aux jeux, il est possible d'affucher leur liste, leur nombre respectif d'exemplaires. On peut également en ajouter de nouveaux. Si le jeu est déjà 
+présent dans la liste, l'ajout ne fera qu'augmenter le nombre d'exemplaires. Il est également possible d'en supprimer mais que si celui ci n'est pas en
+ cours d'emprunt. On peut effectuer une recherche en tapant le nom du jeu et ainsi voir qui l'emprunte actuellement.
+
+\subsubsection{Emprunts}
+\label{sec-1-0-3}
+Les emprunts peuvent êtres affichés ou supprimés. Lors de l'ajout, ou de la suppression, le nombre d'exemplaires est modifié. Il n'est pas possible
+d'ajouter un emprunt si l'adhérent concerné n'a pas renouvelé son inscription. Il est aussi possible de connaitre quels emprunteurs ont des retards, ou
+de rechercher un emrpunteur et afficher les informations qui lui sont associées.
+
+\section{Les fichiers}
+\label{sec-2}
+\subsubsection{Adhérents}
+\label{sec-2-0-1}
+La première ligne du fichier comporte le nombre d'éléments présent dans le fichier. Ensuite un adhérent est stocké sur plusieurs lignes sous cette forme:
+\begin{itemize}
+\item numéro
+\item nom
+\item prénom
+\item date de son inscription
+\end{itemize}
+
+\subsubsection{Jeux}
+\label{sec-2-0-2}
+La première ligne du fichier comporte le nombre d'éléments présent dans le fichier. Ensuite un jeu est stocké sur plusieurs lignes sous cette forme:
+\begin{itemize}
+\item nom
+\item nombre maximal de joueurs
+\item nombre d'exemplaires présent dans la ludothèque
+\end{itemize}
+
+\subsubsection{Emprunts}
+\label{sec-2-0-3}
+La première ligne du fichier comporte le nombre d'éléments présent dans le fichier. Ensuite un emprunt est stocké sur plusieurs lignes sous cette forme:
+\begin{itemize}
+\item numéro de l'emprunteur
+\item nombre d'emprunts en cours
+\end{itemize}
+Puis pour chaque emprunt :
+\begin{itemize}
+\item le nom du jeu emrpunté
+\item la date d'emprunt du jeu
+\end{itemize}
+
+\section{Définitions des structures}
+\label{sec-3}
+\subsubsection{Adhérent}
+\label{sec-3-0-1}
+\begin{minted}[]{c}
+typedef struct {
+  int noad; //numéro de l'adhérent
+  char prenom[15];
+  char nom[15];
+  Date inscrip; //date d'inscription de l'adhérent
+}Adherent;
+\end{minted}
+
+\subsubsection{Jeux}
+\label{sec-3-0-2}
+\begin{minted}[]{c}
+typedef struct{
+  char nom[30];
+        int nbJoueursMax;
+        int nbexemplaire;
+}Jeu;
+\end{minted}
+
+\subsubsection{Emprunt}
+\label{sec-3-0-3}
+\begin{minted}[]{c}
+typedef struct {
+  Adherent *ad; //pointeur sur l'adhérent qui emprunte actuellement le jeu
+  int nbemp;
+  listeEmp lemp; //liste des jeux empruntés
+}Emprunt;
+\end{minted}
+
+\subsubsection{Listes}
+\label{sec-3-0-4}
+
+typedef struct listeJeu\{
+    Jeu jeux;
+    struct listeJeu *suivant;
+\}MaillonJeu,*listeJeux; //Liste des jeux
+
+typedef struct listeemp\{
+    Date dateemp;
+    char nomjeu\footnote{DEFINITION NOT FOUND.};
+    struct listeemp *suivant;
+\}MaillonEmp,*listeEmp; //Liste d'emprunts
+
+typedef struct liste\{
+    Emprunt emp;
+    int nbretard;
+    struct liste *suivant;
+\}Maillon,*Retard; //Liste des emprunteurs ayant un retard
+
+typedef struct listeretard\{
+    int noad;
+    struct listeretard *suivant;
+\}Maillonadret,*listeadret; //Liste des adherents n'ayant pas payé leur nouvelle adhesion
+
+
+\begin{minted}[]{c}
+#define TAILLENOM 30
+#define TAILLEPRENOM 30
+#define EMPRUNTMAX 3
+
+typedef struct{
+  int numero;
+  char nom[TAILLENOM], prenom[TAILLEPRENOM], dernierRenouvellement[11];
+  int emprunts[EMPRUNTMAX];
+} Adherent;
+\end{minted}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

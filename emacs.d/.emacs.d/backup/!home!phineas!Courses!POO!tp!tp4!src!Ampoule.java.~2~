@@ -1,0 +1,54 @@
+package application;
+
+/**
+ * @author Evrard Van Espen
+ */
+
+public class Ampoule{
+    boolean allume=false;
+    int dureeVie=5;
+
+    /** allumer
+     * change l'état de l'ampoule sur "allumée"
+     */
+    public void allumer(){
+	if(dureeVie == 0){
+	    allume = false;
+	}
+	else{
+	    allume = true;
+	    dureeVie--;
+	}
+    }
+
+    /** eteindre
+     * change l'état de l'ampule sur "éteinte"
+     */
+    public void eteindre(){
+	allume=false;
+    }
+
+    /** afficher
+     * affiche l'état de l'ampoule soit:
+     * -allumée
+     * -éteinte
+     * -grillée
+     */
+    public void afficherEtat(){
+	if(dureeVie != 0){
+	    if(allume){
+		System.out.println("*");
+	    }
+	    else if(!allume){
+		System.out.println(" ");
+	    }
+	}
+	else{
+	    System.out.println(".");
+	}
+    }
+
+    public boolean isGrillee(){
+	return dureeVie == 0 ? 1 : 0;
+    }
+}

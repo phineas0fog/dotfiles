@@ -1,0 +1,4 @@
+#+TITLE: Gestion analytique et comptable TP 2
+#+LATEX_HEADER: \usepackage[a4paper]{geometry}
+#+LATEX_HEADER: \geometry{hscale=0.85,vscale=0.85,centering}
+#+OPTIONS: toc:nil date:nil

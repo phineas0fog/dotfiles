@@ -1,0 +1,21 @@
+class Monstre {
+    String nom;
+    int nbPtsVie;
+    int force;
+
+    Monstre(String nom, int nbPtsVie, int force) {
+	this.nom=nom;
+	this.nbPtsVie=nbPtsVie;
+	this.force=force;
+    }
+
+    Monstre(String nom) {
+	this.nom=nom;
+	nbPtsVie=10;
+	force=1;
+    }
+
+    void parler(String message){
+	System.out.println("--"+nom+"-- "+message);
+    }
+}

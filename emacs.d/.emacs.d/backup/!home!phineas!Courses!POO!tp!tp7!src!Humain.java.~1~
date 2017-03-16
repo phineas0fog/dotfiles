@@ -1,0 +1,9 @@
+public class Humain{
+    private String nom;
+    private String boisson;
+
+    public Humain(String nom, String boisson){
+	this.nom	= nom;
+	this.boisson	= boisson;
+    }
+}

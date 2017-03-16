@@ -1,0 +1,6 @@
+public class Ecran{
+    private int nbDeLignes;
+    private int nbDeColonnes;
+
+    public ecran(int nbLignes, int nbColonnes)
+}

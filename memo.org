@@ -1,0 +1,56 @@
+#+TITLE: Mémo ZSH
+#+LATEX_HEADER: \usepackage[a4paper]{geometry}
+#+LATEX_HEADER: \geometry{hscale=1,vscale=1,centering}
+#+OPTIONS: toc:nil date:nil
+#+LaTeX_HEADER: \usemintedstyle{emacs}
+
+| command or shortcut    | effect                                                                                     |
+|------------------------+--------------------------------------------------------------------------------------------|
+| esc-esc                | add "sudo" on the begin of the command                                                     |
+| esc-h                  | display man of command                                                                     |
+| esc-q                  | place command in buffer and display it after the exec of the next cmd                      |
+|------------------------+--------------------------------------------------------------------------------------------|
+| wd add <name>          | add warp point                                                                             |
+| wd list                | list all warp points                                                                       |
+| wd <name>              | go to the directory with the warp point                                                    |
+|------------------------+--------------------------------------------------------------------------------------------|
+| C-s                    | search forward in history                                                                  |
+| C-r                    | search backward in history                                                                 |
+|------------------------+--------------------------------------------------------------------------------------------|
+| zmv '(*).lis' '$1.txt' | mass rename                                                                                |
+| zmv -W '*.lis' '*.txt' | mass rename                                                                                |
+|------------------------+--------------------------------------------------------------------------------------------|
+| cat <file> | colorize  | cat file with syntaxic coloration                                                          |
+|------------------------+--------------------------------------------------------------------------------------------|
+| h                      | display history                                                                            |
+| hsi <patern>           | alias for history | grep <patern>                                                          |
+|------------------------+--------------------------------------------------------------------------------------------|
+| x <file>               | extract file with the good tool automatically                                              |
+|------------------------+--------------------------------------------------------------------------------------------|
+| copydir                | put in clipboard the path of current dir (copy pwd)                                        |
+| copyfile <file>        | put in clipborad the content of the <file>                                                 |
+|------------------------+--------------------------------------------------------------------------------------------|
+| yain                   | yaourt -S                                                                                  |
+|------------------------+--------------------------------------------------------------------------------------------|
+| google <term>          | open a browser tab with <term> search on google                                            |
+| qwant <term>           | same thing with qwant                                                                      |
+| wiki <term>            | search on wikipedia                                                                        |
+| image <term>           | search image on duckduckgo                                                                 |
+| ducky <term>           | open the best result of duckduckgo                                                         |
+|------------------------+--------------------------------------------------------------------------------------------|
+| esc-c                  | call fuck command to correct the command typed before                                      |
+| fuck                   | try to correct command typed before                                                        |
+|------------------------+--------------------------------------------------------------------------------------------|
+| take                   | create a new directory and change to it, will create intermediate directories as required. |
+|------------------------+--------------------------------------------------------------------------------------------|
+| help			 | show this help									      |
+
+| emacs command | effect                 |
+|---------------+------------------------|
+| <s-tab        | insert #+begin_src     |
+| <e-tab        | insert #+begin_example |
+| <q-tab        | insert #+begin_quote   |
+| <h-tab        | insert #+begin_html    |
+| <l-tab        | insert #+begin_latex   |
+| <c-tab        | insert #+begin_center  |
+| <v-tab        | insert #+begin_verse   |

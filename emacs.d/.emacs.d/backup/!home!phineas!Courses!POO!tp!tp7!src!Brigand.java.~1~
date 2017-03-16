@@ -1,0 +1,6 @@
+public class Brigand extend Humain{
+    private String comportement;
+    private int nbDamesEnlevees = 0;
+    private float recompense;
+    private boolean enPrison = false;
+}

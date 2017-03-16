@@ -1,0 +1,17 @@
+;; plantUML
+;; active Org-babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(;; other Babel languages
+   (plantuml . t)))
+
+(setq org-plantuml-jar-path
+      (expand-file-name "~/.plantuml/plantuml.jar"))
+
+;; wolfram alpha
+(require 'wolfram)
+(setq wolfram-alpha-app-id "HEG6YT-R98EERETE2")
+
+;; cedet
+;;(load-file "/usr/share/emacs/site-lisp/cedet/cedet-devel-load.el")
+;;(semantic-load-enable-code-helpers)

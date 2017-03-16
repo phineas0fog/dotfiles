@@ -1,0 +1,298 @@
+% Created 2017-02-06 lun. 15:14
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\author{Evrard Van Espen}
+\date{}
+\title{Cours POO n°2}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\section{Encapsulation}
+\label{sec-1}
+Probleme : besoin de modéliser un point en 2D
+\begin{itemize}
+\item Cahier des charges :
+\begin{itemize}
+\item coordonnées cartésiennes
+\item je veux pouvoir calculer la distance à l'origine
+\end{itemize}
+\end{itemize}
+
+\begin{center}\includegraphics[scale=0.7]{out.png}\end{center}
+
+\begin{minted}[]{java}
+class Point2D {
+  double x, y;
+
+  Point2D(double x, double y){
+    this.x=x;
+    this.y=y;
+  }
+
+  double distanceOrigine(){
+    Maths.sqrt(x*x+y*y);
+  }
+}
+\end{minted}
+
+\begin{itemize}
+\item Cahier des charges du collèque :
+\begin{itemize}
+\item utiliser ma classe \emph{Point2D}
+\item créer un segment entre deux \emph{Point2D}
+\item calculer la longueur de son segment
+\end{itemize}
+\end{itemize}
+
+Puis je découvre les coordonnées polaires et je décide de représenter mon \emph{Point2D} avec les coordonnées polaires
+\begin{itemize}
+\item Cela simplifie beacoup la fonction \emph{distanceOrigine()}
+
+Je veux créer une classe qui modélise un rectangle
+\end{itemize}
+
+\begin{center}\includegraphics[scale=0.7]{out2.png}\end{center}
+
+\subsection{Contrôle d'accès}
+\label{sec-1-1}
+Lors de la définition d'une classe, il est possible de restreindre la visibilité des attributs ou des méthodes.
+
+Trois niveau de visibilité :
+
+\begin{center}
+\begin{tabular}{lll}
+UML & java & effet\\
+\hline
++ & public & accessible pour tout le monde\\
+- & private & accessible uniquement par les instances de la classe\\
+\# & protected & accessible depuis les insta,ces de la classe et ses classes dérivées\\
+\end{tabular}
+\end{center}
+
+
+\uline{Par défaut (si on ne met rien) : accès \textbf{package}}
+
+\subsection{Intérêt}
+\label{sec-1-2}
+\begin{itemize}
+\item Masquer l'implémentation
+\begin{itemize}
+\item le programmeur \emph{client} n'a pas besoin de connaître la composition interne de l'objet
+\end{itemize}
+
+\item Évolutivité
+-il est possible de modifier les données \emph{private} sans impact direct pour l'utilisateur
+
+\item Production
+\end{itemize}
+
+Mais alors comment accéder aux attributs de la classe ?
+
+Les attributs de l'objet sont déclarés \verb~private~ mais les méthodes \verb~public~ permettant de modifier/accéder à ces attributs sont fournies
+si nécessaire.
+Ces méthodes sont appelées \emph{accesseurs} (\verb~getter~) et \emph{mutateurs} (\verb~setter~).
+
+\textbf{Exemple :}
+\begin{minted}[]{java}
+public class T{
+  //attribut
+  private int a;
+
+  //builder
+  public T(){
+  ...
+  }
+
+  //getter
+  public int getA(){
+    return a;
+  }
+  //setter
+  public void setA(int val){
+    a=val;
+  }
+}
+\end{minted}
+
+\section{Réutilisation}
+\label{sec-2}
+\subsection{Compostion}
+\label{sec-2-1}
+\begin{center}\includegraphics[scale=0.7]{out3.png}\end{center}
+\begin{minted}[]{java}
+public class Laptop{
+  String name;
+  int serial;
+  Screen screen; //composition
+}
+\end{minted}
+\emph{Laptop} est \emph{composé}
+
+\emph{Screen} est une \emph{composante}
+
+\begin{minted}[]{java}
+public class Cercle{
+  //centre du cercle
+  private Point centre;
+  //rayon
+  private double rayon;
+
+  public Cercle(Point c, double r){
+    this.centre = c;
+    this.rayon = r;
+  }
+  ...
+}
+
+//main
+Point p1 = new Point(10,21);
+Cercle c1 = new Cercle(p1,8);
+Cercle c2 = new Cercle(p1, 2);
+\end{minted}
+
+Si on modifie le centre du cercle \emph{c1} cela aussi modifier le centre de \emph{c2} car tous deux référencent le même point. La durée de vie des deux
+centres sont liées. Il faut donc changer le constructeur en :
+\begin{minted}[]{java}
+public Cercle(Point c, double r){
+  this.c = new Point(c);
+  this.r = r;
+}
+\end{minted}
+
+Avec cette méthode, les durées de vie ne sont plus liées. En \emph{UML} cela donne :
+\begin{center}\includegraphics[scale=0.7]{out4.png}\end{center}
+\begin{center}\includegraphics[scale=0.7]{out5.png}\end{center}
+
+\subsubsection{Les tableaux}
+\label{sec-2-1-1}
+\begin{enumerate}
+\item Définitions :
+\label{sec-2-1-1-1}
+Agrégat de composantsk, primitifs ou objets, de même type, dont l'accès se fait par un indice calculé.
+\begin{itemize}
+\item Déclaration d'un tableau de type \verb~Type~ :
+\end{itemize}
+\begin{minted}[]{java}
+Type[] tab;
+\end{minted}
+\begin{itemize}
+\item La déclaration d'un tableau n'alloue pas d'espace pour le tableau !
+\item C'est simplement une référence à un objet de \emph{type tableau}
+\end{itemize}
+\item Allocation
+\label{sec-2-1-1-2}
+\begin{minted}[]{java}
+float[] tab1 = new float[42];
+Random[] tab2 = new Random[3];
+\end{minted}
+
+\begin{itemize}
+\item L'allocation n'alloue que des références pour les composants de type \emph{objet}. \textbf{Aucune instance de classe n'est créée !}
+\end{itemize}
+
+Par défaut, le tableau est initialisé à \verb~0, 0.0, \u000, null~, selon le type.
+\item Initialisation
+\label{sec-2-1-1-3}
+\begin{minted}[]{java}
+int[] t1 = {4, 11, -2};
+\end{minted}
+
+Longueur du tableau : \verb~tab.length~.
+\item Tableau multi-dimmentionel
+\label{sec-2-1-1-4}
+\verb~Type[]...[] tab;~ avec "[]" par dimmention.
+\item Parcours
+\label{sec-2-1-1-5}
+\begin{enumerate}
+\item Boucle \verb~for~
+\label{sec-2-1-1-5-1}
+\begin{minted}[]{java}
+for(int i=0;i<matrice.length;i++){
+  for(int j=0; j<matrice[i].length; j++){
+    ...
+  }
+}
+\end{minted}
+\item Boucle \verb~for each~
+\label{sec-2-1-1-5-2}
+\begin{minted}[]{java}
+for(type[] ligne : matrice){
+  for(double x : ligne){
+    ...
+  }
+}
+\end{minted}
+\end{enumerate}
+\end{enumerate}
+\subsection{Délégation}
+\label{sec-2-2}
+\begin{itemize}
+\item Composition/agrégation : vision structurelle des choses
+\item En terme de comportement on parle de délégation
+\end{itemize}
+
+En POO, un objet peut confier la résolution d'une opération à un autre objet. C'est la \emph{délégation}.
+\begin{center}\includegraphics[scale=0.7]{out6.png}\end{center}
+\section{Gestion des erreurs}
+\label{sec-3}
+\subsection{Les exceptions}
+\label{sec-3-1}
+\subsubsection{Statiquement à la compilation}
+\label{sec-3-1-1}
+\begin{itemize}
+\item On essaie de détecter un maximum d'erreurs à la compil du code
+\begin{itemize}
+\item merci au typage
+\item malheureusement pas toujours possible
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Dynamiquement à l'éxécution}
+\label{sec-3-1-2}
+\begin{itemize}
+\item On met au point des codes d'erreur
+\begin{itemize}
+\item Les fonctions renvoient des codes d'erreurs pour signifier leur succès ou leurs échecs
+\begin{itemize}
+\item lourd à gérer
+\item difficile à traiter
+\item mélange entre code "utile" et code "de contrôle"
+\item pas naturel
+\end{itemize}
+\end{itemize}
+
+\item On met en place une gestion \emph{d'exceptions}
+\begin{itemize}
+\item lors d'une erreur un objet est généré pour la décrire
+\begin{itemize}
+\item ciblage de l'erreur dans le code
+\item séparation code "normaux" et codes "exceptionnels"
+\item une entité spéciale traite l'exception
+\end{itemize}
+\end{itemize}
+\end{itemize}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

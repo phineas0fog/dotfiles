@@ -1,0 +1,265 @@
+#+TITLE: Cours POO n°2
+#+LATEX_HEADER: \usepackage[a4paper]{geometry}
+#+LATEX_HEADER: \geometry{hscale=0.85,vscale=0.85,centering}
+#+OPTIONS: toc:nil date:nil
+
+* Encapsulation
+Probleme : besoin de modéliser un point en 2D
+- Cahier des charges :
+  - coordonnées cartésiennes
+  - je veux pouvoir calculer la distance à l'origine
+
+#+begin_src plantuml :file out.png
+skinparam monochrome true
+Point2D : x double
+Point2D : y double
+Point2D : distanceOrigine()
+#+end_src
+#+latex:\begin{center}\includegraphics[scale=0.7]{out.png}\end{center}
+
+#+begin_src java
+class Point2D {
+  double x, y;
+
+  Point2D(double x, double y){
+    this.x=x;
+    this.y=y;
+  }
+
+  double distanceOrigine(){
+    Maths.sqrt(x*x+y*y);
+  }
+}
+#+end_src
+
+- Cahier des charges du collèque :
+  - utiliser ma classe /Point2D/
+  - créer un segment entre deux /Point2D/
+  - calculer la longueur de son segment
+
+Puis je découvre les coordonnées polaires et je décide de représenter mon /Point2D/ avec les coordonnées polaires
+- Cela simplifie beacoup la fonction /distanceOrigine()/
+
+ Je veux créer une classe qui modélise un rectangle
+
+#+begin_src plantuml :file out2.png
+skinparam monochrome true
+Rectangle : cointHautGauche Point2D
+Rectangle : largeur double
+Rectangle : longueur double
+Rectangle : translater(dx : double, dy : double)
+Rectangle : aire() double
+#+end_src
+#+latex:\begin{center}\includegraphics[scale=0.7]{out2.png}\end{center}
+
+** Contrôle d'accès
+Lors de la définition d'une classe, il est possible de restreindre la visibilité des attributs ou des méthodes.
+
+Trois niveau de visibilité :
+
+| UML | java      | effet                                                                |
+|-----+-----------+----------------------------------------------------------------------|
+| +   | public    | accessible pour tout le monde                                        |
+| -   | private   | accessible uniquement par les instances de la classe                 |
+| #   | protected | accessible depuis les insta,ces de la classe et ses classes dérivées | 
+
+
+_Par défaut (si on ne met rien) : accès *package*_
+
+** Intérêt
+- Masquer l'implémentation
+  - le programmeur /client/ n'a pas besoin de connaître la composition interne de l'objet
+
+- Évolutivité
+  -il est possible de modifier les données /private/ sans impact direct pour l'utilisateur
+
+- Production
+
+Mais alors comment accéder aux attributs de la classe ?
+
+Les attributs de l'objet sont déclarés ~private~ mais les méthodes ~public~ permettant de modifier/accéder à ces attributs sont fournies
+si nécessaire.
+Ces méthodes sont appelées /accesseurs/ (~getter~) et /mutateurs/ (~setter~).
+
+*Exemple :*
+#+begin_src java
+public class T{
+  //attribut
+  private int a;
+
+  //builder
+  public T(){
+  ...
+  }
+
+  //getter
+  public int getA(){
+    return a;
+  }
+  //setter
+  public void setA(int val){
+    a=val;
+  }
+}
+#+end_src
+
+* Réutilisation
+** Compostion
+#+begin_src plantuml :file out3.png
+skinparam monochrome true
+Laptop : name String
+Laptop : serial int
+Laptop : keyboard Keyboard
+
+Screen : brand String
+Screen : xRes int
+Screen : yRes int
+
+Laptop -* Screen
+#+end_src
+#+latex:  \begin{center}\includegraphics[scale=0.7]{out3.png}\end{center}
+#+begin_src java
+public class Laptop{
+  String name;
+  int serial;
+  Screen screen; //composition
+}
+#+end_src
+/Laptop/ est /composé/
+
+/Screen/ est une /composante/
+
+#+begin_src java
+public class Cercle{
+  //centre du cercle
+  private Point centre;
+  //rayon
+  private double rayon;
+
+  public Cercle(Point c, double r){
+    this.centre = c;
+    this.rayon = r;
+  }
+  ...
+}
+
+//main
+Point p1 = new Point(10,21);
+Cercle c1 = new Cercle(p1,8);
+Cercle c2 = new Cercle(p1, 2);
+#+end_src
+
+Si on modifie le centre du cercle /c1/ cela aussi modifier le centre de /c2/ car tous deux référencent le même point. La durée de vie des deux
+centres sont liées. Il faut donc changer le constructeur en :
+#+begin_src java
+public Cercle(Point c, double r){
+  this.c = new Point(c);
+  this.r = r;
+}
+#+end_src
+
+Avec cette méthode, les durées de vie ne sont plus liées. En /UML/ cela donne :
+#+begin_src plantuml :file out4.png
+skinparam monochrome true
+Cercle -* Point
+#+end_src
+#+begin_src plantuml :file out5.png
+skinparam monochrome true
+Cercle -o Point
+#+end_src
+#+latex:  \begin{center}\includegraphics[scale=0.7]{out4.png}\end{center}
+#+latex:  \begin{center}\includegraphics[scale=0.7]{out5.png}\end{center}
+
+*** Les tableaux
+**** Définitions :
+Agrégat de composantsk, primitifs ou objets, de même type, dont l'accès se fait par un indice calculé.
+- Déclaration d'un tableau de type ~Type~ :
+#+begin_src java
+Type[] tab;
+#+end_src
+- La déclaration d'un tableau n'alloue pas d'espace pour le tableau !
+- C'est simplement une référence à un objet de /type tableau/
+**** Allocation
+#+begin_src java
+float[] tab1 = new float[42];
+Random[] tab2 = new Random[3];
+#+end_src
+
+- L'allocation n'alloue que des références pour les composants de type /objet/. *Aucune instance de classe n'est créée !*
+
+Par défaut, le tableau est initialisé à ~0, 0.0, \u000, null~, selon le type.
+**** Initialisation
+#+begin_src java
+int[] t1 = {4, 11, -2};
+#+end_src
+
+Longueur du tableau : ~tab.length~.
+**** Tableau multi-dimmentionel
+~Type[]...[] tab;~ avec "[]" par dimmention.
+**** Parcours
+***** Boucle ~for~
+#+begin_src java
+for(int i=0;i<matrice.length;i++){
+  for(int j=0; j<matrice[i].length; j++){
+    ...
+  }
+}
+#+end_src
+***** Boucle ~for each~
+#+begin_src java
+for(type[] ligne : matrice){
+  for(double x : ligne){
+    ...
+  }
+}
+#+end_src
+** Délégation
+- Composition/agrégation : vision structurelle des choses
+- En terme de comportement on parle de délégation
+
+En POO, un objet peut confier la résolution d'une opération à un autre objet. C'est la /délégation/.
+#+begin_src plantuml :file out6.png
+@startuml
+actor Utilisateur
+Utilisateur -> song: print()
+song -> doc : print()
+doc -> doc : getDefaultPrinter()
+doc -> epsonStylus : print(doc)
+epsonStylus --> doc
+doc --> song
+@enduml
+#+end_src
+#+latex:  \begin{center}\includegraphics[scale=0.7]{out6.png}\end{center}
+* Gestion des erreurs
+** Les exceptions
+*** Statiquement à la compilation
+- On essaie de détecter un maximum d'erreurs à la compil du code
+  - merci au typage
+  - malheureusement pas toujours possible
+
+*** Dynamiquement à l'éxécution
+- On met au point des codes d'erreur
+  - Les fonctions renvoient des codes d'erreurs pour signifier leur succès ou leurs échecs
+    - lourd à gérer
+    - difficile à traiter
+    - mélange entre code "utile" et code "de contrôle"
+    - pas naturel
+
+- On met en place une gestion /d'exceptions/
+  - lors d'une erreur un objet est généré pour la décrire
+    - ciblage de l'erreur dans le code
+    - séparation code "normaux" et codes "exceptionnels"
+    - une entité spéciale traite l'exception
+
+*** try...catch
+#+begin_src java
+try{
+  //code succeptible de lancer une exception
+}
+catch(TypeExceptionACapturer e){
+  //traitement lors de la recepetion de l'exception
+}
+#+end_src
+- Lorsqu'une exception est levée cela n'arrète pas le programme
+- On quitte le bloc ~try~ dès qu'une exception est levée dans ce bloc
+- Si l'exception est capturée, le traitement associé à cette capture est éxécuté

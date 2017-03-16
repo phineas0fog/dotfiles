@@ -1,0 +1,45 @@
+% Created 2017-01-30 lun. 20:30
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage[a4paper]{geometry}
+\geometry{hscale=0.85,vscale=0.85,centering}
+\usemintedstyle{emacs}
+\author{Evrard Van Espen}
+\date{}
+\title{Test orgmode}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\section{test code source c}
+\label{sec-1}
+\begin{minted}[]{c}
+printf("Hello World !");
+\end{minted}
+
+\section{test UML}
+\label{sec-2}
+
+\includegraphics[width=.9\linewidth]{tryout.png}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

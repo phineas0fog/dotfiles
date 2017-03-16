@@ -1,0 +1,15 @@
+package personnages;
+
+public class Chevalier{
+    String titre;
+    int ptsDeVie;
+    int puissArme;
+    int puissBouclier;
+
+
+    public Chevalier(String titre, int bouclier, int arme){
+	this.titre=titre;
+	puissbouclier=bouclier;
+	puissArme=arme;
+    }
+}

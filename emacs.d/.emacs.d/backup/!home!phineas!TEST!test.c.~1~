@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct
+{
+  char nom[10];
+  char prenom[10];
+}Gens;
+
+int main(void)
+{
+  Gens* tab[15];
+
+  FILE *fe;
+  Gens b;
+  Gens a;
+
+  tab[1]=&a;
+  tab[2]=&b;
+
+  strcpy(b.nom, "azz");
+  strcpy(b.prenom, "zza");
+
+  fe=fopen("fb", "wb");
+  fwrite(tab[1], sizeof(Gens), 1, fe);
+  fclose(fe);
+
+
+  fe=fopen("fb", "rb");
+  fread(&a, sizeof(Gens), 1, fe);
+  fclose(fe);
+
+  for(int i=0; i<10; i++)
+    printf("%d: -%s -%s\n", i, tab[i]->nom, tab[i]->prenom);
+
+  printf("a: -%s -%s\n", a.nom, a.prenom);
+
+  return 0;
+}
+
+

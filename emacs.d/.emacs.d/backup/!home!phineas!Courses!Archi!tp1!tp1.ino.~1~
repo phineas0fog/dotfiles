@@ -1,0 +1,22 @@
+/*
+ Faire clignoter une led toutes les secondes
+*/
+ 
+ 
+// La fonction setup est exécutée une fois à la mise en secteur de la carte ou si le bouton reset est actionné
+ 
+void setup() 
+{
+  pinMode(42, OUTPUT); // La broche 13 est initialisée en sortie.
+}
+ 
+ 
+// La fonction loop est exécutée en boucle indéfiniment
+ 
+void loop() 
+{
+  digitalWrite(42, HIGH);   // Allume la led  (HIGH est la valeur du voltage)
+  delay(1);              // Attend une  seconde
+  digitalWrite(42, LOW);    // Eteint la LED  (LOW c'est la masse)
+  delay(1);              // Attend une seconde
+}
